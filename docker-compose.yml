@@ -1,0 +1,15 @@
+
+version: "1"
+
+services:
+  ngnix-react:
+    image: egovernance-app:latest
+    container_name: container-egovernance-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    environment:
+      - NODE_ENV=production
+
