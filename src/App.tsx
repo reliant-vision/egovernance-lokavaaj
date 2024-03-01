@@ -1,25 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Dashboard from './components/Dashboard';
+import CreateApplication from './components/CreateApplication';
+import ContactUs from './components/ContactUs';
+import DepartmentLogin from './components/DepartmentLogin';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-         <code>src/App.tsx</code>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          E-Governance Goa
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/CreateApplication" element={<CreateApplication />} />
+        <Route path="/ContactUs" element={<ContactUs />} />
+        <Route path="/DepartmentLogin" element={<DepartmentLogin />} />
+      </Routes>
+    </Router>
   );
 }
 

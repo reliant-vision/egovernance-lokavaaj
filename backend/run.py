@@ -7,6 +7,23 @@ import mysql.connector
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/ContactUs')
+def ContactUs():
+    return render_template('ContactUs.html')
+
+@app.route('/')
+def Dashboard():
+    return render_template('Dashboard.html')
+
+@app.route('/CreateApplication')
+def CreateApplication():
+    return render_template('CreateApplication.html')
+
+
+@app.route('/DepartmentLogin')
+def DepartmentLogin():
+    return render_template('DepartmentLogin.html')
+
 db_config = {
     'host': 'inquizitive-db.cfumeu4g8hu4.ap-south-1.rds.amazonaws.com',
     'user': 'admin',
