@@ -8,7 +8,7 @@ const DepartmentLogin: React.FC = () => {
   useEffect(() => {
     const fetchHtmlContent = async () => {
       try {
-        const response = await fetch('http://localhost:5000/DepartmentLogin'); // Replace with your actual API endpoint
+        const response = await fetch('http://lokavaaj-goa.ap-south-1.elasticbeanstalk.com/DepartmentLogin'); // Replace with your actual API endpoint
         const htmlText = await response.text();
         const sanitizedHtml = DOMPurify.sanitize(htmlText);
         setHtmlContent(sanitizedHtml);
