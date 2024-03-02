@@ -1,64 +1,28 @@
-# app.py
-from flask import Flask, jsonify
-from flask_cors import CORS, cross_origin
-from flask_sqlalchemy import SQLAlchemy
-import mysql.connector 
+from flask import Flask, render_template
+from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='app/templates')
 CORS(app)
 
-@app.route('/ContactUs')
-def ContactUs():
-    return render_template('ContactUs.html')
+
 
 @app.route('/')
-def Dashboard():
+def dashboard():
     return render_template('Dashboard.html')
 
+@app.route('/ContactUs')
+def contact_us():
+    return render_template('ContactUs.html')
+
 @app.route('/CreateApplication')
-def CreateApplication():
+def create_application():
     return render_template('CreateApplication.html')
 
 
 @app.route('/DepartmentLogin')
-def DepartmentLogin():
+def department_login():
     return render_template('DepartmentLogin.html')
 
-db_config = {
-    'host': 'inquizitive-db.cfumeu4g8hu4.ap-south-1.rds.amazonaws.com',
-    'user': 'admin',
-    'password': '-*swOaDMJrBt>16zV}kI34ArR3:g',
-    'database': 'inquizitivedb',
-}
-
-
-@app.route('/')
-def home():
-    return 'Hello, World!'
-
-@app.route('/api/data')
-def get_data():
-    data = {'Teacher': 'xyz'}
-    return jsonify(data)
-
-@app.route('/api/teachers')
-def get_teachers():
-    try:
-        # Establish a connection
-        connection = mysql.connector.connect(**db_config)
-        # Create a cursor
-        cursor = connection.cursor(dictionary=True)
-        # Execute your SQL query
-        cursor.execute('SELECT * FROM teachers')
-        # Fetch the results
-        data = cursor.fetchall()
-        # Close the cursor and connection
-        cursor.close()
-        connection.close()
-        return jsonify(data)
-    except Exception as e:
-        return jsonify({'error': str(e)})
-    
 
 if __name__ == '__main__':
     app.run(debug=True)
