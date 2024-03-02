@@ -1,7 +1,7 @@
 FROM node:20.11.1 as build
 WORKDIR /app
 COPY . .
-COPY requirements.txt .
+COPY backend/requirements.txt .
 
 RUN npm install
 RUN npm run build
