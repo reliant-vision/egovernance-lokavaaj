@@ -2,7 +2,7 @@ FROM node:20.11.1 as build
 WORKDIR /app
 COPY . .
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 RUN npm install
 RUN npm run build
 
