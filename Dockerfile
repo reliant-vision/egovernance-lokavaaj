@@ -1,7 +1,7 @@
 FROM node:20.11.1 as build
 WORKDIR /app
 COPY . .
-COPY backend/requirements.txt .
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 RUN npm install
 RUN npm run build
