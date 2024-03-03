@@ -2,7 +2,7 @@
     "AWSEBDockerrunVersion": "2",
     "containerDefinitions": [
       {
-        "name": "react-app",
+        "name": "lokavaaj-app",
         "image": "node:20.11.1",
         "essential": true,
         "memory": 256,
@@ -16,7 +16,7 @@
         ]
       },
       {
-        "name": "flask-app",
+        "name": "lokavaaj-app",
         "image": "python:3.12.2",
         "essential": true,
         "memory": 256,
@@ -28,8 +28,8 @@
             "containerPort": 5000
           }
         ],
-        "links": ["react-app"],
-        "dependsOn": ["react-app"],
+        "links": ["lokavaaj-app"],
+        "dependsOn": ["lokavaaj-app"],
         "environment": [
           {
             "name": "PORT",
@@ -48,8 +48,8 @@
             "containerPort": 80
           }
         ],
-        "links": ["flask-app"],
-        "dependsOn": ["flask-app"]
+        "links": ["lokavaaj-app"],
+        "dependsOn": ["lokavaaj-app"]
       }
     ]
   }
