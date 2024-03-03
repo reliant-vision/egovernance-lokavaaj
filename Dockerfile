@@ -1,7 +1,8 @@
-# Stage 1: Build Stage
+# Stage 1: Node Build Stage
 FROM node:20.11.1 as build
 WORKDIR /app
 COPY . .
+COPY backend/requirements.txt .
 
 RUN npm install
 RUN npm run build
@@ -21,28 +22,20 @@ COPY backend/requirements.txt .
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-# Install Gunicorn
+# Install Gunicorn separately
 RUN pip install gunicorn
 
-# Add Python binaries directory to the PATH
-ENV PATH="/usr/local/bin:${PATH}"
-
-# Stage 3: Production Stage
+# Stage 3: Nginx Stage
 FROM nginx:1.21
-WORKDIR /usr/share/nginx/html
-
-# Copy static files from the build stage
-COPY --from=build /app/build .
-
-# Copy Nginx configuration
+COPY --from=build /app/build /usr/share/nginx/html/
 COPY --from=build /app/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-
+# Expose ports
 EXPOSE 80
 EXPOSE 5000
 
-# Set environment variable
+# Set Flask app environment variable
 ENV FLASK_APP=run.py
 
 # Start Gunicorn
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "run:app"]
+CMD ["/usr/local/bin/gunicorn", "-b", "0.0.0.0:5000", "run:app"]
