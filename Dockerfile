@@ -24,7 +24,7 @@ WORKDIR /usr/share/nginx/html
 COPY --from=build /app/build .
 
 # Copy Nginx configuration
-COPY backend/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Stage 4: Run Flask app with Gunicorn
 FROM python as flask
