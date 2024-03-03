@@ -1,0 +1,56 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+      {
+        "name": "react-app",
+        "image": "node:20.11.1",
+        "essential": true,
+        "memory": 256,
+        "command": ["npm", "run", "build"],
+        "entryPoint": ["/bin/bash", "-c"],
+        "environment": [
+          {
+            "name": "NODE_ENV",
+            "value": "production"
+          }
+        ]
+      },
+      {
+        "name": "flask-app",
+        "image": "python:3.12.2",
+        "essential": true,
+        "memory": 256,
+        "command": ["/bin/bash", "-c"],
+        "entryPoint": ["gunicorn", "run:app", "--bind", "0.0.0.0:5000"],
+        "portMappings": [
+          {
+            "hostPort": 5000,
+            "containerPort": 5000
+          }
+        ],
+        "links": ["react-app"],
+        "dependsOn": ["react-app"],
+        "environment": [
+          {
+            "name": "PORT",
+            "value": "5000"
+          }
+        ]
+      },
+      {
+        "name": "nginx",
+        "image": "nginx:1.21",
+        "essential": true,
+        "memory": 256,
+        "portMappings": [
+          {
+            "hostPort": 80,
+            "containerPort": 80
+          }
+        ],
+        "links": ["flask-app"],
+        "dependsOn": ["flask-app"]
+      }
+    ]
+  }
+  
