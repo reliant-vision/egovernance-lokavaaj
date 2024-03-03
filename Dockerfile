@@ -19,12 +19,12 @@ RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
 # Stage 3: Build Nginx stage
-FROM nginx:1.21
+FROM nginx:1.21 as nginx
 WORKDIR /usr/share/nginx/html
 COPY --from=build /app/build .
 
 # Copy Nginx configuration
-COPY --from=python /app/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY backend/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Stage 4: Run Flask app with Gunicorn
 FROM python as flask
