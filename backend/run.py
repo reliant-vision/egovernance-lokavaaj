@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import os
 
 app = Flask(__name__, template_folder='app/templates')
