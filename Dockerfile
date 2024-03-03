@@ -24,6 +24,9 @@ RUN pip install --upgrade pip && \
 # Install Gunicorn
 RUN pip install gunicorn
 
+# Add Python binaries directory to the PATH
+ENV PATH="/usr/local/bin:${PATH}"
+
 # Stage 3: Production Stage
 FROM nginx:1.21
 WORKDIR /usr/share/nginx/html
