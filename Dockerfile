@@ -15,7 +15,9 @@ WORKDIR /app
 RUN apt-get update && \
     apt-get install -y python3-pip && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    pip install --upgrade pip && \
+    pip install gunicorn
 
 # Install Python dependencies
 COPY backend/requirements.txt .
@@ -23,7 +25,7 @@ RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
 # Install Gunicorn separately
-RUN pip install gunicorn
+# RUN pip install gunicorn
 
 # Stage 3: Nginx Stage
 FROM nginx:1.21
@@ -38,4 +40,4 @@ EXPOSE 5000
 ENV FLASK_APP=run.py
 
 # Start Gunicorn
-CMD ["/usr/local/bin/gunicorn", "-b", "0.0.0.0:5000", "run:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "run:app"]
