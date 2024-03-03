@@ -1,17 +1,14 @@
-# Stage 1: Node Build Stage
 FROM node:20.11.1 as build
 WORKDIR /app
 COPY . .
-COPY backend/requirements.txt .
 
 RUN npm install
 RUN npm run build
 
-# Stage 2: Python Dependencies Stage
 FROM python:3.12.2
 WORKDIR /app
 
-# Install pip
+# Install pip and gunicorn
 RUN apt-get update && \
     apt-get install -y python3-pip && \
     apt-get clean && \
@@ -21,23 +18,23 @@ RUN apt-get update && \
 
 # Install Python dependencies
 COPY backend/requirements.txt .
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
-# Install Gunicorn separately
-# RUN pip install gunicorn
-
-# Stage 3: Nginx Stage
-FROM nginx:1.21
 COPY --from=build /app/build /usr/share/nginx/html/
+
+# Prod environment
+FROM nginx:1.21
 COPY --from=build /app/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose ports
 EXPOSE 80
 EXPOSE 5000
 
-# Set Flask app environment variable
 ENV FLASK_APP=run.py
 
-# Start Gunicorn
+# Set the path to gunicorn
+ENV PATH="/usr/local/bin:${PATH}"
+
+# CMD ["nginx", "-g", "daemon off;", "&&", "flask", "run", "--host=0.0.0.0", "--port=5000"]
+# CMD /bin/bash -c "nginx -g 'daemon off;' && flask run --host=0.0.0.0 --port=5000"
+# CMD service nginx start && gunicorn -b 0.0.0.0:5000 run:app
 CMD ["gunicorn", "-b", "0.0.0.0:5000", "run:app"]
