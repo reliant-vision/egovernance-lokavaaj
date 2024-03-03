@@ -12,13 +12,12 @@ WORKDIR /app
 RUN apt-get update && \
     apt-get install -y python3-pip && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    pip install --upgrade pip && \
-    pip install gunicorn
+    rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 COPY backend/requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
 
 COPY --from=build /app/build /usr/share/nginx/html/
 
