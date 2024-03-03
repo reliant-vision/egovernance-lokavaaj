@@ -7,7 +7,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchHtmlContent = async () => {
       try {
-        const response = await fetch('http://lokavaaj-goa.ap-south-1.elasticbeanstalk.com/'); // Replace with your actual API endpoint
+        const response = await fetch('http://3.111.163.245/'); // Replace with your actual API endpoint
         const htmlText = await response.text();
         const sanitizedHtml = DOMPurify.sanitize(htmlText);
         setHtmlContent(sanitizedHtml);

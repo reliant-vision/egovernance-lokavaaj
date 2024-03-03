@@ -3,7 +3,7 @@ from flask_cors import CORS, cross_origin
 import os
 
 app = Flask(__name__, template_folder='app/templates')
-CORS(app, origins=['http://lokavaaj-goa.ap-south-1.elasticbeanstalk.com'], methods=['GET', 'POST'], allow_headers=['Content-Type'])
+CORS(app, origins=['http://3.111.163.245/'])
 
 
 
