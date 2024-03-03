@@ -29,7 +29,7 @@ COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 # Stage 4: Run Flask app with Gunicorn
 FROM python as flask
 WORKDIR /app
-COPY . .
+COPY backend .
 
 # Expose the Flask app port
 EXPOSE 5000
