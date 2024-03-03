@@ -21,6 +21,9 @@ COPY backend/requirements.txt .
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
+# Install Gunicorn
+RUN pip install gunicorn
+
 # Stage 3: Production Stage
 FROM nginx:1.21
 WORKDIR /usr/share/nginx/html
@@ -31,8 +34,6 @@ COPY --from=build /app/build .
 # Copy Nginx configuration
 COPY --from=build /app/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Install Gunicorn
-RUN pip install gunicorn
 
 EXPOSE 80
 EXPOSE 5000
