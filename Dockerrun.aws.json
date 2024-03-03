@@ -1,11 +1,11 @@
 {
-    "AWSEBDockerrunVersion": "2",
+    "AWSEBDockerrunVersion": 2,
     "containerDefinitions": [
       {
         "name": "react-app",
         "image": "node:20.11.1",
         "essential": true,
-        "memory": 256,
+        "memory": 512,
         "command": ["npm", "run", "build"],
         "entryPoint": ["/bin/bash", "-c"],
         "environment": [
@@ -19,7 +19,7 @@
         "name": "flask-app",
         "image": "python:3.12.2",
         "essential": true,
-        "memory": 256,
+        "memory": 512,
         "command": ["/bin/bash", "-c"],
         "entryPoint": ["gunicorn", "run:app", "--bind", "0.0.0.0:5000"],
         "portMappings": [
