@@ -22,5 +22,6 @@ def create_application():
 def department_login():
     return render_template('DepartmentLogin.html')
 
+
 if __name__ == '__main__':
     app.run()
