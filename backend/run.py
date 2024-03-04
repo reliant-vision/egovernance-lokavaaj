@@ -4,7 +4,7 @@ from flask_cors import CORS
 app = Flask(__name__, template_folder='app/templates')
 
 # Allow requests from your React app's domain
-CORS(app, resources={r"/api/*": {"origins": "http://3.111.163.245:80"}})
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @app.route('/')
 def dashboard():
@@ -24,4 +24,4 @@ def department_login():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
