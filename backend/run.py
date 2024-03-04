@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 from flask_cors import CORS
-import os
 
 app = Flask(__name__, template_folder='app/templates')
 
@@ -24,4 +23,4 @@ def department_login():
     return render_template('DepartmentLogin.html')
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", debug=True, port=int(os.environ.get('PORT', 5000)))
+    app.run(host="0.0.0.0", debug=True, port=5000)
