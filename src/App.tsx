@@ -7,14 +7,15 @@ import DepartmentLogin from './components/DepartmentLogin';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/CreateApplication" element={<CreateApplication />} />
-        <Route path="/ContactUs" element={<ContactUs />} />
-        <Route path="/DepartmentLogin" element={<DepartmentLogin />} />
-      </Routes>
-    </Router>
+    // <Router>
+    //   <Routes>
+    //     <Route path="/" element={<Dashboard />} />
+    //     <Route path="/CreateApplication" element={<CreateApplication />} />
+    //     <Route path="/ContactUs" element={<ContactUs />} />
+    //     <Route path="/DepartmentLogin" element={<DepartmentLogin />} />
+    //   </Routes>
+    // </Router>
+    <div>App.tsx Page</div>
   );
 }
 
