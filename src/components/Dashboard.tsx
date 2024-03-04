@@ -7,7 +7,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchHtmlContent = async () => {
       try {
-        const response = await fetch('/'); // Replace with your actual API endpoint
+        const response = await fetch('/api/'); // Replace with your actual API endpoint
         const htmlText = await response.text();
         const sanitizedHtml = DOMPurify.sanitize(htmlText);
         setHtmlContent(sanitizedHtml);
