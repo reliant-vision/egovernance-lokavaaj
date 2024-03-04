@@ -1,5 +1,4 @@
 {
-  "proxy": "http://3.111.163.245:5000",
   "name": "egovernance-lokavaaj",
   "version": "0.1.0",
   "private": true,
