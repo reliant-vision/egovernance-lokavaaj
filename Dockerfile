@@ -1,10 +1,9 @@
 # Stage 1: Build React app
 FROM node:20.11.1 as build
 WORKDIR /app
-COPY . /app
+COPY . .
 RUN npm install
 RUN npm run build
-RUN npm start
 
 # Stage 2: Build Python environment
 FROM python:3.12.2 as python
@@ -28,7 +27,7 @@ COPY --from=build /app/build .
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Stage 4: Run Flask app with Gunicorn
-FROM python 
+FROM python
 WORKDIR /app/backend
 COPY . .
 
@@ -36,7 +35,7 @@ COPY . .
 EXPOSE 5000
 
 # Start Gunicorn to run Flask app
-CMD ["python", "run.py"]
+CMD ["gunicorn", "run:app", "--bind", "0.0.0.0:5000"]
 
 # Stage 5: Final image with Nginx and Flask app
 FROM nginx:1.21
