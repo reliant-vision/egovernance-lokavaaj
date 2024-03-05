@@ -11,12 +11,6 @@
             "hostPort": 0,
             "containerPort": 5000
           }
-        ],
-        "environment": [
-          {
-            "name": "PORT",
-            "value": "5000"
-          }
         ]
       },
       {
@@ -30,14 +24,9 @@
             "hostPort": 0,
             "containerPort": 80
           }
-        ],
-        "environment": [
-            {
-              "name": "PORT",
-              "value": "80"
-            }
-          ]
+        ]
       }
-    ]
+    ],
+    "port": 80
   }
   
