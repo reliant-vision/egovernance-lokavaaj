@@ -21,3 +21,7 @@ def create_application():
 @app.route('/DepartmentLogin')
 def department_login():
     return render_template('DepartmentLogin.html')
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
