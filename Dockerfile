@@ -4,6 +4,7 @@ WORKDIR /app
 COPY . /app
 RUN npm install
 RUN npm run build
+RUN npm start
 
 # Stage 2: Build Python environment
 FROM python:3.12.2 as python
@@ -27,7 +28,7 @@ COPY --from=build /app/build .
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Stage 4: Run Flask app with Gunicorn
-FROM python as flask
+FROM python 
 WORKDIR /app/backend
 COPY . .
 
