@@ -14,7 +14,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
-COPY requirements.txt .
+COPY backend/requirements.txt .
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
@@ -29,7 +29,7 @@ COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 # Stage 4: Run Flask app with Gunicorn
 FROM python
 WORKDIR /app/backend
-COPY . .
+COPY backend .
 
 # Expose the Flask app port
 EXPOSE 5000
