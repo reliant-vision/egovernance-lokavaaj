@@ -35,7 +35,7 @@ COPY . .
 EXPOSE 5000
 
 # Start Gunicorn to run Flask app
-CMD ["gunicorn", "run:app", "--bind", "0.0.0.0:5000"]
+CMD ["python", "run.py"]
 
 # Stage 5: Final image with Nginx and Flask app
 FROM nginx:1.21
