@@ -41,7 +41,7 @@
         "name": "nginx",
         "image": "nginx:1.21",
         "essential": true,
-        "memory": 256,
+        "memory": 512,
         "portMappings": [
           {
             "hostPort": 80,
