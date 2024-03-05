@@ -8,15 +8,13 @@ RUN npm run build
 # Stage 2: Build Python environment
 FROM python:3.12.2 as python
 WORKDIR /app/backend
-RUN apt-get update && \
-    apt-get install -y python3-pip && \
+RUN apt-get install -y python3-pip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 COPY backend/requirements.txt .
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Stage 3: Build Nginx stage
 FROM nginx:1.21 as nginx
