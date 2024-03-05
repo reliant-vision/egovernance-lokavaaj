@@ -1,20 +1,20 @@
 # Stage 1: Build React app
 FROM node:20.11.1 as build
 WORKDIR /app
-COPY . .
+COPY . /app
 RUN npm install
 RUN npm run build
 
 # Stage 2: Build Python environment
 FROM python:3.12.2 as python
-WORKDIR /app
+WORKDIR /app/backend
 RUN apt-get update && \
     apt-get install -y python3-pip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
-COPY backend/requirements.txt .
+COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
@@ -28,8 +28,8 @@ COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Stage 4: Run Flask app with Gunicorn
 FROM python as flask
-WORKDIR /app
-COPY backend .
+WORKDIR /app/backend
+COPY . .
 
 # Expose the Flask app port
 EXPOSE 5000
