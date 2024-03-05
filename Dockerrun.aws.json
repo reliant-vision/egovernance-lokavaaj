@@ -6,7 +6,7 @@
         "image": "backend",
         "essential": true,
         "memory": 512,
-        "portMappings": [
+        "ports": [
           {
             "hostPort": 0,
             "containerPort": 5000
@@ -19,7 +19,7 @@
         "essential": true,
         "memory": 512,
         "links": ["backend"],
-        "portMappings": [
+        "ports": [
           {
             "hostPort": 0,
             "containerPort": 80
@@ -27,6 +27,6 @@
         ]
       }
     ],
-    "port": 80
+    "ports": 80
   }
   
