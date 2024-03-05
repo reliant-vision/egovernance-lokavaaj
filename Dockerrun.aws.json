@@ -3,13 +3,38 @@
     "containerDefinitions": [
       {
         "name": "backend",
-        "image": "backend",
-        "essential": true
+        "essential": true,
+        "memory": 512,
+        "portMappings": [
+          {
+            "hostPort": 0,
+            "containerPort": 5000
+          }
+        ],
+        "environment": [
+          {
+            "name": "PORT",
+            "value": "5000"
+          }
+        ]
       },
       {
         "name": "nginx",
-        "image": "nginx:1.21",
-        "essential": true
+        "essential": true,
+        "memory": 512,
+        "links": ["backend"],
+        "portMappings": [
+          {
+            "hostPort": 0,
+            "containerPort": 80
+          }
+        ],
+        "environment": [
+            {
+              "name": "PORT",
+              "value": "80"
+            }
+          ]
       }
     ]
   }
