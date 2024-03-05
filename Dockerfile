@@ -25,7 +25,7 @@ COPY --from=build /app/build .
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Stage 4: Run Flask app with Gunicorn
-FROM python as flask
+FROM python 
 WORKDIR /app/backend
 COPY backend .
 
@@ -36,7 +36,7 @@ EXPOSE 5000
 CMD ["gunicorn", "run:app", "--bind", "0.0.0.0:5000"]
 
 # Stage 5: Final image with Nginx and Flask app
-FROM nginx:1.21
+FROM nginx
 
 # Copy static files from the Nginx stage
 COPY --from=nginx /usr/share/nginx/html /usr/share/nginx/html
