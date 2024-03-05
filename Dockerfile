@@ -8,7 +8,8 @@ RUN npm run build
 # Stage 2: Build Python environment
 FROM python:3.12.2 as python
 WORKDIR /app/backend
-RUN apt-get install -y python3-pip && \
+RUN apt-get update && \
+    apt-get install -y python3-pip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -16,32 +17,21 @@ RUN apt-get install -y python3-pip && \
 COPY backend/requirements.txt .
 RUN pip install -r requirements.txt
 
-# Stage 3: Build Nginx stage
-FROM nginx:1.21 as nginx
-WORKDIR /usr/share/nginx/html
-COPY --from=build /app/build .
+# Stage 3: Final image with Nginx and Flask app
+FROM nginx:1.21
+
+# Copy static files from the React build
+COPY --from=build /app/build /usr/share/nginx/html
 
 # Copy Nginx configuration
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-# Stage 4: Run Flask app with Gunicorn
-FROM python 
-WORKDIR /app/backend
-COPY backend .
+# Copy Flask app code
+COPY backend /app/backend
 
-# Expose the Flask app port
+# Expose ports
+EXPOSE 80
 EXPOSE 5000
 
-# Start Gunicorn to run Flask app
-CMD ["gunicorn", "run:app", "--bind", "0.0.0.0:5000"]
-
-# Stage 5: Final image with Nginx and Flask app
-FROM nginx
-
-# Copy static files from the Nginx stage
-COPY --from=nginx /usr/share/nginx/html /usr/share/nginx/html
-
-# Expose the default Nginx port
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# Start Gunicorn to run Flask app and then Nginx
+CMD ["gunicorn", "backend.run:app", "--bind", "0.0.0.0:5000", "&", "nginx", "-g", "daemon off;"]
