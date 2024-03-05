@@ -1,18 +1,29 @@
 {
-    "AWSEBDockerrunVersion": "1",
-    "containerDefinitions": [
-      {
-        "name": "backend",
-        "image": "backend",
-        "essential": true,
-        "memory": 512,
-        "portMappings": [
-          {
-            "hostPort": 5000,
-            "containerPort": 5000
-          }
-        ]
-      }
-    ]
-  }
-  
+  "AWSEBDockerrunVersion": "1",
+  "containerDefinitions": [
+    {
+      "name": "backend",
+      "image": "backend",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "hostPort": 5000,
+          "containerPort": 5000
+        }
+      ]
+    },
+    {
+      "name": "nginx",
+      "image": "nginx:1.21",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ]
+    }
+  ]
+}
