@@ -1,0 +1,18 @@
+# docker-compose.yml
+version: '3'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile_backend
+    expose:
+      - "5000"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
