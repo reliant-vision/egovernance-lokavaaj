@@ -38,7 +38,7 @@ const Home: React.FC = () => {
           <main className="main-content">
             {/* Your page content goes here */}
             <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-            {/* <div>Hello</div> */}
+            <div>Hello</div>
           </main>
         </div>
         <Footer />
