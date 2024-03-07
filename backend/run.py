@@ -7,8 +7,8 @@ app = Flask(__name__, template_folder='app/templates')
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @app.route('/')
-def dashboard():
-    return render_template('Dashboard.html')
+def Home():
+    return render_template('index.html')
 
 @app.route('/ContactUs')
 def contact_us():

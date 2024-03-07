@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="footer">
       {/* Your footer content goes here */}
-      <p>&copy; 2024 Copy Rights</p>
+      <p>Copyright © 2024. All Rights Reserved, Govt of Goa.</p>
     </footer>
   );
 };
