@@ -11,7 +11,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const fetchHtmlContent = async () => {
       try {
-        const response = await fetch('/api/');
+        const response = await fetch('/');
         const htmlText = await response.text();
         const sanitizedHtml = DOMPurify.sanitize(htmlText);
         setHtmlContent(sanitizedHtml);
