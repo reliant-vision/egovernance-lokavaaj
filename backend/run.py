@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from flask_cors import CORS
 
-app = Flask(__name__, template_folder='app/templates')
+app = Flask(__name__, template_folder='app/templates', static_folder='app/build/static', static_url_path='/static')
 
 # Allow requests from your React app's domain
 CORS(app, resources={r"/api/*": {"origins": "*"}})
