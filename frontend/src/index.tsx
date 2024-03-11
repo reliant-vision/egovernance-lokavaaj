@@ -1,19 +1,20 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { createRoot } from 'react-dom/client';
+import NavBar from './components/Navbar';
+import {Route, Routes} from 'react-router-dom'
+import Home from './components/Home'
+import SignUpPage from './components/SignUp';
+import LoginPage from './components/Login';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const App: React.FC = () => {
+  
+  return (
+    <div className='app'>
+      <NavBar/>
+    </div>
+  );
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const root = createRoot(document.getElementById('root')!);
+root.render(<App />);
