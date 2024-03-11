@@ -1,7 +1,7 @@
 # Dockerfile_frontend
 FROM node:20.11.1 as build
 WORKDIR /app
-COPY frontend .
+COPY ./frontend .
 RUN npm install
 RUN npm run build
 
