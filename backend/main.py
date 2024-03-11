@@ -13,7 +13,7 @@ from departments import departments_ns
 from constituencies import constituencies_ns
 from categories import categories_ns
 from flask_cors import CORS
-from models import Applications, Users, Enclosures, Villages, Offices, Talukas, Departments, Districts
+from models import Applications, Users, Enclosures, Villages, Offices, Talukas, Departments, Districts, Constituencies, Categories
 
 def create_app(config):
     app=Flask(__name__)
@@ -51,7 +51,7 @@ def create_app(config):
             "Departments": Departments,
             "Districts": Districts,
             "Constituencies": Constituencies,
-            "Catagories": Catagories
+            "Categories": Categories
         }
 
     return app
