@@ -4,7 +4,7 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile_frontend
+      dockerfile: frontend/Dockerfile_frontend
     ports:
       - "80:80"
     depends_on:
@@ -15,14 +15,14 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile_backend
+      dockerfile: backend/Dockerfile_backend
     ports:
       - "5000:5000"
 
   nginx:
     build:
       context: .
-      dockerfile: Dockerfile_nginx
+      dockerfile: nginx/Dockerfile_nginx
     ports:
       - "8080:80"  # Map port 8080 to avoid conflicts with frontend's port 80
     depends_on:
