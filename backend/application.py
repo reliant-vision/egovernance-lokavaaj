@@ -27,7 +27,7 @@ def create_app(config):
 
     JWTManager(application)
 
-    api = Api(application, doc='/docs')
+    api = Api(application, doc='/swagger/api/docs')
 
     api.add_namespace(app_ns)
     api.add_namespace(auth_ns)
