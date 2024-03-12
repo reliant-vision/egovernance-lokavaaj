@@ -1,6 +1,6 @@
 from flask import Flask
 from config import DevConfig
-from main import create_app
+from application import create_app
 
 
 app = create_app(DevConfig)
