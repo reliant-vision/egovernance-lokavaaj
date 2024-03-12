@@ -3,7 +3,7 @@
 import React from 'react';
 import '../styles/header.css'; // Import CSS file
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt, faBars } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -24,6 +24,7 @@ const Header: React.FC = () => {
           <li><a href="#">About</a></li>
           <li><a href="#">Contact</a></li>
           <li className="login-btn"><a href="#"><FontAwesomeIcon icon={faSignInAlt} /> Login</a></li>
+          <li className='bars'><a href='#'><FontAwesomeIcon icon={faBars} /></a></li>
         </ul>
       </nav>
     </div>
