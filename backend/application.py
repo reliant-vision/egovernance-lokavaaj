@@ -80,4 +80,4 @@ def configure_logging(application):
 if __name__ == '__main__':
     application = create_app(DevConfig)
     port = int(os.environ.get("PORT", 5000))
-    application.run(host='0.0.0.0', debug=False, port=port)
+    application.run(host='0.0.0.0', port=port)
