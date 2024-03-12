@@ -1,4 +1,4 @@
-# application.py
+import logging
 from flask import Flask
 from flask_restx import Api
 from exts import db
@@ -21,6 +21,9 @@ from config import DevConfig
 def create_app(config):
     application = Flask(__name__)
     application.config.from_object(config)
+
+    # Configure logging
+    configure_logging(application)
 
     CORS(application)
 
@@ -58,6 +61,15 @@ def create_app(config):
         }
 
     return application
+
+def configure_logging(application):
+    # Set up logging to a file
+    log_file = '/var/log/my_application.log'  # Adjust the path as needed
+    handler = logging.FileHandler(log_file)
+    handler.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    application.logger.addHandler(handler)
 
 if __name__ == '__main__':
     application = create_app(DevConfig)
