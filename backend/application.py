@@ -24,7 +24,7 @@ def create_app(config):
 
     CORS(application)
 
-    db.init_app(apapplicationp)
+    db.init_app(application)
 
     JWTManager(application)
 
@@ -41,7 +41,7 @@ def create_app(config):
     api.add_namespace(constituencies_ns)
     api.add_namespace(categories_ns)
 
-    @app.shell_context_processor
+    @application.shell_context_processor
     def make_shell_context():
         return {
             "db": db, 
