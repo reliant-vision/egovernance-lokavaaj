@@ -23,8 +23,8 @@ const Header: React.FC = () => {
           <li><a href="#">Home</a></li>
           <li><a href="#">About</a></li>
           <li><a href="#">Contact</a></li>
-          <li className="login-btn"><a href="#"><FontAwesomeIcon icon={faSignInAlt} /> Login</a></li>
           <li className='bars'><a href='#'><FontAwesomeIcon icon={faBars} /></a></li>
+          <li className="login-btn"><a href="#"><FontAwesomeIcon icon={faSignInAlt} /> Login</a></li>
         </ul>
       </nav>
     </div>
