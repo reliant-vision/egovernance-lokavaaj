@@ -19,16 +19,16 @@ import os
 from config import DevConfig
 
 def create_app(config):
-    application = app = Flask(__name__)
-    app.config.from_object(config)
+    application = Flask(__name__)
+    application.config.from_object(config)
 
-    CORS(app)
+    CORS(application)
 
-    db.init_app(app)
+    db.init_app(apapplicationp)
 
-    JWTManager(app)
+    JWTManager(application)
 
-    api = Api(app, doc='/docs')
+    api = Api(application, doc='/docs')
 
     api.add_namespace(app_ns)
     api.add_namespace(auth_ns)
@@ -57,7 +57,7 @@ def create_app(config):
             "Categories": Categories
         }
 
-    return app
+    return application
 
 if __name__ == '__main__':
     application = create_app(DevConfig)
