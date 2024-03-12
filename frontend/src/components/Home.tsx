@@ -1,9 +1,18 @@
 import React from 'react'
+import Header from './Header';
+import Footer from './Footer';
+import '../styles/home.css'; 
 
+
+const homeimg = require("../assets/home-img.jpg");
 const HomePage=()=>{
     return (
-        <div className='home'>
-            <h1>Home Page</h1>
+        <div>
+        <Header />
+        <div className='home-container'>
+            <img src={homeimg} alt="homeimg" className="home-img" />
+        </div>
+        <Footer />
         </div>
     )
 }

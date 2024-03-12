@@ -1,0 +1,14 @@
+/* home.css */
+
+.home-container {
+    display: flex;
+    flex-direction: column; /* Arrange items vertically */
+    align-items: center; /* Center items horizontally */
+  }
+  
+  .home-img {
+    width: 100%; /* Set width to 100% */
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: 10px; /* Adjust margin as needed */
+  }
+  
