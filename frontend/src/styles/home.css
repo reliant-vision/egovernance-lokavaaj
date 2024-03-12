@@ -8,7 +8,7 @@
   
   .home-img {
     width: 100%; /* Set width to 100% */
-    height: auto; /* Maintain aspect ratio */
-    margin-bottom: 10px; /* Adjust margin as needed */
+    height: 500px; /* Maintain aspect ratio */
+    margin-bottom: 500px; /* Adjust margin as needed */
   }
   

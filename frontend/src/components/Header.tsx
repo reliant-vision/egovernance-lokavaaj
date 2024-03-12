@@ -2,6 +2,10 @@
 
 import React from 'react';
 import '../styles/header.css'; // Import CSS file
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
+
+
 
 const logo =  require("../assets/logo.png");
 const Header: React.FC = () => {
@@ -19,6 +23,7 @@ const Header: React.FC = () => {
           <li><a href="#">Home</a></li>
           <li><a href="#">About</a></li>
           <li><a href="#">Contact</a></li>
+          <li className="login-btn"><a href="#"><FontAwesomeIcon icon={faSignInAlt} /> Login</a></li>
         </ul>
       </nav>
     </div>

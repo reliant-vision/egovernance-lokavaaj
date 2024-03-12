@@ -41,6 +41,7 @@
     text-decoration: none;
     font-weight: normal;
     margin-right: 200px;
+    font-size: large;
   }
   
   .header-nav ul li {
@@ -56,4 +57,16 @@
   max-width: 100px; /* Adjust max-width as needed */
   margin-right: 50px; 
   margin-left: 75px;
+}
+
+.login-btn a {
+  display: inline-block;
+  padding: 10px 20px; /* Adjust padding as needed */
+  border-radius: 20px; /* Make it rounded */
+  background-color: #007bff; /* Button background color */
+  color: #fff; /* Button text color */
+}
+
+.login-btn a::after {
+  margin-left: 5px; /* Add spacing between text and icon */
 }

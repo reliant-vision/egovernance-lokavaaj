@@ -4,7 +4,7 @@ import Footer from './Footer';
 import '../styles/home.css'; 
 
 
-const homeimg = require("../assets/home-img.jpg");
+const homeimg = require("../assets/home-img1.jpg");
 const HomePage=()=>{
     return (
         <div>
