@@ -1,5 +1,5 @@
 import logging
-from flask import Flask
+from flask import Flask, jsonify
 from flask_restx import Api
 from exts import db
 from flask_jwt_extended import JWTManager
@@ -60,11 +60,17 @@ def create_app(config):
             "Categories": Categories
         }
 
+    # Custom error handler for 500 Internal Server Error
+    @application.errorhandler(500)
+    def internal_server_error(e):
+        application.logger.error(f"Internal Server Error: {str(e)}")
+        return jsonify(error="Internal Server Error"), 500
+
     return application
 
 def configure_logging(application):
     # Set up logging to a file
-    log_file = '/var/log/my_application.log'  # Adjust the path as needed
+    log_file = '/var/log/flask_app.log'  # Adjust the path as needed
     handler = logging.FileHandler(log_file)
     handler.setLevel(logging.INFO)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
