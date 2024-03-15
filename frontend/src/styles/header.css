@@ -1,29 +1,48 @@
 /* Header.css */
 
 .color-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 70px; /* Adjust height as needed */
-  background-color: #231562; /* Your desired color */
-  z-index: 1; /* Ensure it's above other content */
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 52px;
+    background-color: #f7f7f7;
+    z-index: 1;
 }
 
 .header-container {
-    position: relative;
-    background-color: #fcfcfc;
-    color: #050505;
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    z-index: 2;
+  position: relative;
+  background-color: #fcfcfc;
+  color: #050505;
+  display: flex;
+  align-items: center;
+  height: 16vh;
   }
   
   .header-title {
-    margin-right: auto;
+    margin-right: -160px;
+    width: 300px;
+    height: 100px;
   }
   
+  .header-title p {
+    color: #1e7b71;
+    text-decoration: none;
+    font-weight: normal;
+    margin-right: 200px;
+    font-size: 30px;
+    font-weight:bolder;
+    width: 300px;
+    height: 40px;
+  }
+
+  .header-nav {
+    position: relative;
+    height: 40px;
+    width: 900px;
+    margin-left: 175px;
+  }
+
   .header-nav ul {
     list-style-type: none;
     margin: 0;
@@ -32,38 +51,38 @@
   
   .header-nav li {
     display: inline;
-    margin-right: 1rem;
-    margin-left: 25px;
   }
   
   .header-nav a {
-    color: #050505;
     text-decoration: none;
     font-weight: normal;
     margin-right: 200px;
     font-size: large;
+    padding: 1.5rem;
+    color: #218334;
   }
   
   .header-nav ul li {
     display: inline-block;
-    margin-right: -150px; /* Add some spacing between nav items */
+    margin-right: -202px; /* Add some spacing between nav items */
   }
 
   .header-nav ul li:last-child {
-    margin-right: 0; /* Remove margin from last nav item */
+    margin-left: 50px;
   }
   
   .header-logo {
-  max-width: 100px; /* Adjust max-width as needed */
-  margin-right: 50px; 
-  margin-left: 75px;
+    max-width: 76px;
+    margin-right: 30px;
+    margin-left: 100px;
+    height: 15vh;
 }
 
 .login-btn a {
   display: inline-block;
   padding: 5px 15px; /* Adjust padding as needed */
   border-radius: 20px; /* Make it rounded */
-  background-color: #092440; /* Button background color */
+  background-color: #044107; /* Button background color */
   color: #fff; /* Button text color */
 }
 

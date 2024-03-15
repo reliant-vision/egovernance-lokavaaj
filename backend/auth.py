@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 from flask import Flask, request, abort, jsonify, Response, make_response
 from models import Users
+from datetime import datetime, timedelta
 
 auth_ns = Namespace('auth', description= 'Namespace for Authentication')
 
@@ -68,13 +69,19 @@ class Login(Resource):
         user = Users.query.filter_by(username=username).first()
 
         if user and check_password_hash(user.password, password):
-            access_token = create_access_token(identity=user.username)
-            refresh_token = create_refresh_token(identity=user.username)
+            current_time = datetime.utcnow()
+            expires = timedelta(hours=24)
+            expiration_time = current_time + expires
+            access_token = create_access_token(identity=user.username, expires_delta=expires)
+            refresh_token = create_refresh_token(identity=user.username, expires_delta=expires)
 
             return jsonify(
                 {
                     'access_token': access_token,
-                    'refresh_token': refresh_token
+                    'refresh_token': refresh_token,
+                    "expires_in": expires.total_seconds(),
+                    "generated_at": current_time.isoformat(),
+                    "expiration_time": expiration_time.isoformat()
                 }
             )
 
