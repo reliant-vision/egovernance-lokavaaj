@@ -29,6 +29,7 @@ application_model = app_ns.model(
         "application_status": fields.String(), 
         "remarks": fields.String(),
         "assigned_to": fields.String(),
+        "assembly_constituency": fields.String(),
     }
 )
 
@@ -53,7 +54,8 @@ def get_application_dict(application):
         "description": application.description,
         "application_status": application.application_status,
         "remarks": application.remarks,
-        "assigned_to": application.assigned_to
+        "assigned_to": application.assigned_to,
+        "assembly_constituency": application.assembly_constituency,
         }
 
 @app_ns.route('/test')
@@ -96,7 +98,8 @@ class ApplicationResource(Resource):
             description= data.get('description'),
             application_status= data.get('application_status'), 
             remarks= data.get('remarks'),
-            assigned_to= data.get('assigned_to')
+            assigned_to= data.get('assigned_to'),
+            assembly_constituency = data.get('assembly_constituency'),
         )
         new_application.save()
         return new_application, 201
@@ -132,3 +135,79 @@ class ApplicationsResource(Resource):
         update_application.update(data.get('application_status'), data.get('assigned_to'))
         update_application = get_application_dict(update_application)
         return update_application
+    
+@app_ns.route('/district/<string:district>')
+class ApplicationsByDistrictResource(Resource):
+    def get(self, district):
+        """fetch applications district wise"""
+        applications_district_wise_list = []
+        applications_district_wise =  Applications.query.filter_by(district=district).all()
+        if len(applications_district_wise)==0:
+            print("Inside IF")
+            return {
+                "status_code": 404,
+                "error_message": "No applications found."
+            }
+        else:
+            for application in applications_district_wise:
+                applications_district_wise_dict = get_application_dict(application)
+                applications_district_wise_list.append(applications_district_wise_dict)
+        return jsonify(applications_district_wise_list)
+
+@app_ns.route('/village/<string:village>')
+class ApplicationsByVillageResource(Resource):
+    def get(self, village):
+        """fetch applications village wise"""
+        applications_village_wise_list = []
+        applications_village_wise =  Applications.query.filter_by(village=village).all()
+        if len(applications_village_wise)==0:
+            return {
+                "status_code": 404,
+                "error_message": "No applications found."
+            }
+        else:
+            for application in applications_village_wise:
+                applications_village_wise_dict = get_application_dict(application)
+                applications_village_wise_list.append(applications_village_wise_dict)
+        return jsonify(applications_village_wise_list)
+
+
+@app_ns.route('/assembly_constituency/<string:assembly_constituency>')
+class ApplicationsByAssemblyConstituencyResource(Resource):
+    def get(self, assembly_constituency):
+        """fetch applications assembly_constituency wise"""
+        applications_constituency_wise = []
+        applications_assembly_constituency_wise =  Applications.query.filter_by(assembly_constituency=assembly_constituency).all()
+        if len(applications_assembly_constituency_wise)==0:
+            return {
+                "status_code": 404,
+                "error_message": "No applications found."
+            }
+        else:
+            for application in applications_constituency_wise:
+                applications_constituency_wise_dict = get_application_dict(application)
+                applications_constituency_wise_list.append(applications_constituency_wise_dict)
+        return jsonify(applications_assembly_constituency_wise_list)
+
+
+@app_ns.route('/taluka/<string:taluka>')
+class ApplicationsByTalukaResource(Resource):
+    def get(self, taluka):
+        """fetch applications taluka wise"""
+        applications_taluka_wise = []
+        applications_taluka_wise =  Applications.query.filter_by(taluka=taluka).all()
+        if len(applications_taluka_wise)==0:
+            return {
+                "status_code": 404,
+                "error_message": "No applications found."
+            }
+        else:
+            for application in applications_taluka_wise:
+                applications_taluka_wise_dict = get_application_dict(application)
+                applications_taluka_wise_list.append(applications_taluka_wise_dict)
+        return jsonify(applications_taluka_wise_list)
+
+
+
+
+

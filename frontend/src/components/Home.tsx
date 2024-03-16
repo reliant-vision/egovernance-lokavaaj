@@ -11,7 +11,7 @@ import Collapse from '@mui/material/Collapse';
 
 
 
-const homeimg = require("../assets/goa-map-1.png");
+const homeimg = require("../assets/goa-map.png");
 
 interface Data {
     id: number,

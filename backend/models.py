@@ -37,6 +37,7 @@ class Applications(db.Model):
     email = db.Column(db.String(50), nullable=True)
     occupation = db.Column(db.String(20), nullable=True)
     village = db.Column(db.String(50), nullable=True)
+    assembly_constituency = db.Column(db.String(50), nullable=True)
     taluka = db.Column(db.String(50), nullable=True)
     district = db.Column(db.String(50), nullable=True)
     address = db.Column(db.Text(), nullable=True)
