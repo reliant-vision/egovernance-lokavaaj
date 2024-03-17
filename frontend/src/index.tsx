@@ -1,22 +1,32 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom/client';
 import NavBar from './components/Navbar';
-import {Route, Routes} from 'react-router-dom'
-import Home from './components/Home'
-import SignUpPage from './components/SignUp';
-import LoginPage from './components/Login';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import {BrowserRouter} from 'react-router-dom'
+import App from "./App";
 
-const App: React.FC = () => {
-  
-  return (
-    <div className='app'>
-      <Home />
-    </div>
-  );
-}
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-const root = createRoot(document.getElementById('root')!);
-root.render(<App />);
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+  </React.StrictMode>
+);
+// const App: React.FC = () => {
+
+//   root.render(<App />);
+//   return (
+//     <React.StrictMode>
+//         <BrowserRouter>
+//             <div className='app'>
+//               <App />
+//             </div>
+//         </BrowserRouter>
+//     </React.StrictMode>
+//   );
+// }
+
+
+

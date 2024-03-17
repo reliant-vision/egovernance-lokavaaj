@@ -2,6 +2,8 @@ from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import jwt_required
 from flask import request, jsonify
 from models import Applications
+from sqlalchemy import func
+from exts import db
 
 app_ns = Namespace('applications', description='Namespace for Applications')
 
@@ -206,6 +208,32 @@ class ApplicationsByTalukaResource(Resource):
                 applications_taluka_wise_dict = get_application_dict(application)
                 applications_taluka_wise_list.append(applications_taluka_wise_dict)
         return jsonify(applications_taluka_wise_list)
+
+@app_ns.route('/TalukaWiseCount')
+class ApplicationsTalukaWiseCountResource(Resource):
+    def get(self):
+        """Fetch applications taluka wise count"""
+        try:
+            taluka_counts = (
+                db.session.query(Applications.taluka, func.count(Applications.id))
+                .group_by(Applications.taluka)
+                .all()
+            )
+            if not taluka_counts:
+                return {
+                    "status_code": 404,
+                    "error_message": "No applications found."
+                }
+            
+            taluka_counts_dict = [{"taluka": taluka, "count": count} for taluka, count in taluka_counts]
+            
+            return jsonify(taluka_counts_dict)
+        except Exception as e:
+            return {
+                "status_code": 500,
+                "error_message": "Internal Server Error",
+                "details": str(e)
+            }
 
 
 

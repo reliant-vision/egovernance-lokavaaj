@@ -1,14 +1,25 @@
 // Footer.tsx
 
 import React from 'react';
-import '../styles/footer.css'; // Import CSS file
+import {Box, Typography, useTheme} from "@mui/material"
+import FlexBetween from './FlexBetween';
 
 const Footer: React.FC = () => {
+  const {palette} = useTheme();
   return (
-    <footer className="footer-container">
-      <p className="footer-text">Copyright © 2024 | All rights reserved. | Govt of Goa.</p>
-      <p className="footer-text">Developed by Reliant Vision Technologies</p>
-    </footer>
+    <Box
+      textAlign="center"
+      py={3}
+      mt="auto" // Pushes the footer to the bottom of the page
+    >
+    <FlexBetween mb="0.25rem" p="0rem 30rem " color={palette.grey[300]} textAlign="center">
+    <FlexBetween gap="0.75rem">
+          <Typography variant='body2' fontSize="12px">
+              Copyright © 2024 | All rights reserved | Govt of Goa | Developed by Reliant Vision Technologies
+          </Typography>
+    </FlexBetween>
+    </FlexBetween>
+    </Box>
   );
 };
 

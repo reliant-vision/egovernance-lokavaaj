@@ -51,28 +51,6 @@ const HomePage=()=>{
     return (
         <body>
         <div>
-        <Header />
-        <div className='home-container'>
-            <div className='home-img-container'><img src={homeimg} alt="homeimg" className="home-img" /></div>
-            <div className='home-list-container'>
-            <List
-                sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-                component="nav"
-                aria-labelledby="nested-list-subheader"
-                subheader={
-                    <ListSubheader component="div" id="nested-list-subheader">
-                    Nested List Items
-                    </ListSubheader>
-                }
-                >
-                <ListItemButton>
-                    <ListItemText primary="Sent mail" />
-                </ListItemButton>
-                </List>
-            </div>
-
-        </div>
-        <Footer />
         </div>
         </body>
     )

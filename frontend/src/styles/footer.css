@@ -1,17 +1,10 @@
-/* Footer.css */
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-.footer-container {
-  position: relative; /* Change to relative positioning */
-  width: 100%;
-  background-color: #333;
-  color: #fff;
-  padding: 1rem;
-  text-align: center;
-  margin-top: auto; /* Align to the bottom of the content */
-  }
-  
-  .footer-text {
-    margin: 0;
-  }
-
-  
+#root {
+  flex: 1;
+}
