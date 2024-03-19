@@ -67,13 +67,18 @@ class TestResource(Resource):
 
 @app_ns.route('/')
 class ApplicationResource(Resource):
-    @app_ns.marshal_list_with(application_model)
-    @jwt_required()
+    # @app_ns.marshal_list_with(application_model)
+    # @jwt_required()
     def get(self):
         """Get all applications"""
+        applications_data = []
         applications = Applications.query.all()
-        
-        return applications
+        for application in applications:
+            application_dict = get_application_dict(application)
+            keys = ['application_number', 'applicant_name', 'grievance_type', 'application_status']
+            application_dict = {key: application_dict[key] for key in keys if key in application_dict}
+            applications_data.append(application_dict)
+        return applications_data
     
     @app_ns.marshal_with(application_model)
     @app_ns.expect(application_model)
@@ -209,25 +214,31 @@ class ApplicationsByTalukaResource(Resource):
                 applications_taluka_wise_list.append(applications_taluka_wise_dict)
         return jsonify(applications_taluka_wise_list)
 
-@app_ns.route('/TalukaWiseCount')
-class ApplicationsTalukaWiseCountResource(Resource):
+
+@app_ns.route('/countbydistrictandtaluka')
+class ApplicationsDistrictWiseCountResource(Resource):
     def get(self):
         """Fetch applications taluka wise count"""
         try:
+            district_counts = (
+                db.session.query(Applications.district, func.count(Applications.id))
+                .group_by(Applications.district)
+                .all()
+            )
             taluka_counts = (
                 db.session.query(Applications.taluka, func.count(Applications.id))
                 .group_by(Applications.taluka)
                 .all()
             )
-            if not taluka_counts:
+            if not district_counts and not taluka_counts:
                 return {
                     "status_code": 404,
                     "error_message": "No applications found."
                 }
             
-            taluka_counts_dict = [{"taluka": taluka, "count": count} for taluka, count in taluka_counts]
-            
-            return jsonify(taluka_counts_dict)
+            district_counts_dict = [{"district": district, "count": count} for district, count in district_counts]
+            taluka_counts_dict =  [{"taluka": taluka, "count": count} for taluka, count in taluka_counts]
+            return jsonify([district_counts_dict, taluka_counts_dict])
         except Exception as e:
             return {
                 "status_code": 500,
