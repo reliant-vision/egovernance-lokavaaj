@@ -264,6 +264,7 @@ class ApplicationsDistrictWiseCountResource(Resource):
                 .group_by(Applications.taluka, Applications.application_status)
                 .all()
             )
+
             if not taluka_total_counts and not taluka_individual_counts:
                 return {
                     "status_code": 404,
@@ -277,12 +278,23 @@ class ApplicationsDistrictWiseCountResource(Resource):
             data_df = data_df.pivot(index='taluka', columns='application_status', values='count')
             data_df = data_df.reset_index()
             data_df = data_df[['taluka', 'open', 'pending review', 'resolved']]
-            data_df = data_df.drop(0)
             data_df[['open', 'pending review', 'resolved']] = data_df[['open', 'pending review', 'resolved']].astype(int)
             data_df = data_df.merge(total_count_df, on='taluka')
             data_df = data_df.rename(columns={'count': 'total_count'})
             response = data_df.to_dict(orient='records')
-            return response
+            # response.append({
+            #     "total_count": int(data_df['total_count'].sum()),
+            #     "open": int(data_df['open'].sum()),
+            #     "pending review": int(data_df['pending review'].sum()),
+            #     "resolved": int(data_df['resolved'].sum())
+            # })
+            # print(response[-1])
+            return [response, [{
+                "total_count": int(data_df['total_count'].sum()),
+                "open": int(data_df['open'].sum()),
+                "pending_review": int(data_df['pending review'].sum()),
+                "resolved": int(data_df['resolved'].sum())
+            }]]
         except Exception as e:
             return {
                 "status_code": 400,

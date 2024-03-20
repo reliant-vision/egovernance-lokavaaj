@@ -46,6 +46,7 @@ const DashboardRow2: React.FC = () => {
                 setError('Failed to fetch data');
                 setLoading(false);
             }
+            
         };
         fetchApplications();
     }, []);
@@ -79,7 +80,6 @@ const DashboardRow2: React.FC = () => {
     return (
         <>
             <DashboardBox gridArea="d">
-                <BoxHeader title={"Grievances Statistics"} sidetext={``} />
             </DashboardBox>
             <DashboardBox gridArea="e">
                 <BoxHeader title={"List of Grievance Applications"} sidetext={`${filteredApplications?.length} Total Applications`} />

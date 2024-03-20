@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DashboardBox from "./DashboardBox";
 import { Area, Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import BoxHeader from "./BoxHeader";
 
 type Props = {};
@@ -15,8 +15,17 @@ interface ApplicationsDataStats {
     resolved: number;
 }
 
+interface ApplicationsDataOverallStats{
+    id: number;
+    total_count: number;
+    open: number;
+    pending_review: number;
+    resolved: number;
+}
+
 const DashboardRow3: React.FC = () => {
     const [applicationsStats, setApplicationsStats] = useState<ApplicationsDataStats[]>([]);
+    const [applicationsOverallStats, setApplicationsOverallStats] = useState<ApplicationsDataOverallStats[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
@@ -34,7 +43,8 @@ const DashboardRow3: React.FC = () => {
             throw new Error('Failed to fetch data');
         }
         const data = await response.json();
-        setApplicationsStats(data);
+        setApplicationsStats(data[0]);
+        setApplicationsOverallStats(data[1]);
         setLoading(false);
         } catch (error) {
         console.error('Error:', error);
@@ -53,6 +63,8 @@ const DashboardRow3: React.FC = () => {
     if (error) {
         return <div>Error: {error}</div>;
     }
+
+    console.log(applicationsOverallStats)
 
     return (
         <>
@@ -74,7 +86,35 @@ const DashboardRow3: React.FC = () => {
             </ResponsiveContainer>
         </DashboardBox>
         <DashboardBox  gridArea="h" ></DashboardBox>
-        <DashboardBox  gridArea="i" ></DashboardBox>
+        <DashboardBox  gridArea="i" >
+            <BoxHeader title={"Grievances Statistics"} sidetext={``} />
+            <Box mt="6rem" display="flex" flexWrap="wrap" justifyContent="space-around">
+                <Box ml="-0.7rem" textAlign="center" flexBasis="calc(25% - 0.7rem)">
+                    <Typography variant="h4" color="#14FCFC">Total</Typography>
+                    <Typography m="0.3rem 0" variant="h3" color="#14FCFC">
+                        {applicationsOverallStats.length > 0 && applicationsOverallStats[0].total_count}
+                    </Typography>
+                </Box>
+                <Box textAlign="center" flexBasis="calc(25% - 0.7rem)">
+                    <Typography variant="h4" color="#FC3714">New</Typography>
+                    <Typography m="0.3rem 0" variant="h3" color="#FC3714">
+                        {applicationsOverallStats.length > 0 && applicationsOverallStats[0].open}
+                    </Typography>
+                </Box>
+                <Box textAlign="center" flexBasis="calc(25% - 0.7rem)">
+                    <Typography variant="h4" color="#F9D612">Pending</Typography>
+                    <Typography m="0.3rem 0" variant="h3" color="#F9D612">
+                        {applicationsOverallStats.length > 0 && applicationsOverallStats[0].pending_review}
+                    </Typography>
+                </Box>
+                <Box textAlign="center" flexBasis="calc(25% - 0.7rem)">
+                    <Typography variant="h4" color="#44E60B">Resolved</Typography>
+                    <Typography m="0.3rem 0" variant="h3" color="#44E60B">
+                        {applicationsOverallStats.length > 0 && applicationsOverallStats[0].resolved}
+                    </Typography>
+                </Box>
+            </Box>
+        </DashboardBox>
         <DashboardBox  gridArea="j" ></DashboardBox>
         </>
     );
