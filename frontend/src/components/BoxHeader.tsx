@@ -3,9 +3,9 @@ import FlexBetween from "./FlexBetween";
 import { Box, Typography, useTheme } from "@mui/material";
 
 type Props ={
-    title: string;
+    title?: string;
     subtitle?: string;
-    sidetext: string;
+    sidetext?: string;
     icon?: React.ReactNode;
 }
 const BoxHeader = ({icon, title, subtitle, sidetext}: Props) =>{

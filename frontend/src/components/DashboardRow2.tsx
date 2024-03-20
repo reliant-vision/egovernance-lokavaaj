@@ -62,12 +62,6 @@ const DashboardRow2: React.FC = () => {
         setSearchTerm(event.target.value);
     };
 
-    // const filteredApplications = applicationsdata.filter(app =>
-    //     app.application_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //     app.applicant_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //     app.grievance_type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //     app.application_status.toLowerCase().includes(searchTerm.toLowerCase())
-    // );
     const filteredApplications = applicationsdata.filter(app =>
         (app.application_number && app.application_number.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (app.applicant_name && app.applicant_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -83,7 +77,9 @@ const DashboardRow2: React.FC = () => {
 
     return (
         <>
-            <DashboardBox gridArea="d" />
+            <DashboardBox gridArea="d">
+                <BoxHeader title={"Grievances Statistics"} sidetext={``} />
+            </DashboardBox>
             <DashboardBox gridArea="e">
                 <BoxHeader title={"List of Grievance Applications"} sidetext={`${filteredApplications?.length} Total Applications`} />
                 <Box
