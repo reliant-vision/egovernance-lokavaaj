@@ -4,6 +4,7 @@ from flask import request, jsonify
 from models import Applications
 from sqlalchemy import func
 from exts import db
+import pandas as pd
 
 app_ns = Namespace('applications', description='Namespace for Applications')
 
@@ -244,6 +245,48 @@ class ApplicationsDistrictWiseCountResource(Resource):
                 "status_code": 500,
                 "error_message": "Internal Server Error",
                 "details": str(e)
+            }
+
+
+
+@app_ns.route('/appstats')
+class ApplicationsDistrictWiseCountResource(Resource):
+    def get(self):
+        """Fetch applications taluka wise count"""
+        try:
+            taluka_total_counts = (
+                db.session.query(Applications.taluka, func.count(Applications.id))
+                .group_by(Applications.taluka)
+                .all()
+            )
+            taluka_individual_counts = (
+                db.session.query(Applications.taluka, Applications.application_status, func.count(Applications.id))
+                .group_by(Applications.taluka, Applications.application_status)
+                .all()
+            )
+            if not taluka_total_counts and not taluka_individual_counts:
+                return {
+                    "status_code": 404,
+                    "error_message": "No applications found."
+                }
+            
+            taluka_total_counts_dict = [{"taluka": taluka, "count": count} for taluka, count in taluka_total_counts]
+            total_count_df = pd.DataFrame(taluka_total_counts_dict)
+            taluka_individual_counts_dict =  [{"taluka": taluka, "application_status": application_status, "count": count} for taluka, application_status, count in taluka_individual_counts]
+            data_df = pd.DataFrame(taluka_individual_counts_dict)
+            data_df = data_df.pivot(index='taluka', columns='application_status', values='count')
+            data_df = data_df.reset_index()
+            data_df = data_df[['taluka', 'open', 'pending review', 'resolved']]
+            data_df = data_df.drop(0)
+            data_df[['open', 'pending review', 'resolved']] = data_df[['open', 'pending review', 'resolved']].astype(int)
+            data_df = data_df.merge(total_count_df, on='taluka')
+            data_df = data_df.rename(columns={'count': 'total_count'})
+            response = data_df.to_dict(orient='records')
+            return response
+        except Exception as e:
+            return {
+                "status_code": 400,
+                "error_message": str(e)
             }
 
 

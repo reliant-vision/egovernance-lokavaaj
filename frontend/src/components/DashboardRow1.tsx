@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useMemo}from "react";
 import DashboardBox from "./DashboardBox";
 import { Area, AreaChart, CartesianGrid, Label, Pie, PieChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import BoxHeader from "./BoxHeader";
 
 interface TalukaWiseCount {
     taluka: string;
@@ -54,6 +55,7 @@ const DashboardRow1: React.FC = () => {
     return (
         <>
         <DashboardBox  gridArea="a" >
+        <BoxHeader title={"Number of Applications Taluka Wise"} sidetext={``} />
         <ResponsiveContainer width="100%" height={300}>
           <AreaChart
             data={talukawiseCounts}
@@ -85,6 +87,7 @@ const DashboardRow1: React.FC = () => {
 
 
         <DashboardBox  gridArea="c" >
+        <BoxHeader title={"Number of Applications Taluka Wise & District Wise"} sidetext={``} />
         <ResponsiveContainer width="100%" height={300}>
         <PieChart width={300} height={250}>
             <Pie data={districtwiseCounts} dataKey="count" nameKey="district" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" />

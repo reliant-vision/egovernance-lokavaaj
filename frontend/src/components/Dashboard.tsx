@@ -14,10 +14,10 @@ const gridTemplateLargeScreens = `
   "d e e"
   "d e e"
   "d e e"
-  "g h i"
-  "g h i"
-  "g h i"
-  "g h i"
+  "d e e"
+  "g g i"
+  "g g i"
+  "g g i"
 `
 
 const gridTemplateSmallScreens = `
