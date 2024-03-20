@@ -25,7 +25,7 @@ const DashboardRow2: React.FC = () => {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
     const filteredApplicationsColumns = [
-        { field: "application_number", headerName: "Application Number", flex: 0.5 },
+        { field: "application_number", headerName: "Application Number", flex: 0.5},
         { field: "applicant_name", headerName: "Applicant Name", flex: 0.5 },
         { field: "grievance_type", headerName: "Grievance Type", flex: 1 },
         { field: "application_status", headerName: "Application Status", flex: 1 }
@@ -75,6 +75,7 @@ const DashboardRow2: React.FC = () => {
     const rowsPerPage = 7; // Set the number of rows per page
     const gridHeight = Math.min(filteredApplications.length * rowHeight + headerHeight + paginationHeight, rowsPerPage * rowHeight + headerHeight + paginationHeight);
 
+
     return (
         <>
             <DashboardBox gridArea="d">
@@ -103,6 +104,10 @@ const DashboardRow2: React.FC = () => {
                         hideFooter
                         getRowId={(row) => row.id}
                         sx={{
+                            '& .MuiDataGrid-columnHeader':{
+                                color: "#11FEFE",
+
+                            },
                             color: palette.grey[400]
                         }}
                     />

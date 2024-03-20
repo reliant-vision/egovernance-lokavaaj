@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import {Box, Typography, useTheme} from "@mui/material"
 import FlexBetween from './FlexBetween';
 
@@ -8,10 +8,24 @@ const logo = require('../assets/logo.png')
 const Header: React.FC = () => {
   const isLoggedIn = !!localStorage.getItem('token'); // Check if user is logged in
   const {palette} = useTheme();
-  const [selected, setSelected] = useState("Home")
+  const location = useLocation();
+
+  const [selected, setSelected] = useState(() => {
+    const currentPath = location.pathname;
+    console.log("current path", currentPath);
+    return currentPath.slice(1) || 'Home'; // Initialize selected link based on current location
+  });
+
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove token from localStorage
   };
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const selectedLink = currentPath.slice(1) || 'Home'; // Remove the leading slash and set default to 'Home'
+    setSelected(selectedLink);
+  }, [location.pathname]);
+
 
   return (
     <FlexBetween mb="0.25rem" p="0.5rem 0rem" color={palette.grey[300]}>
@@ -50,7 +64,15 @@ const Header: React.FC = () => {
             </Box>
             <Box sx={{"$:hover": {color:palette.primary[100]}}}>
               {isLoggedIn ? (
-                <Link to={'/'} onClick={handleLogout} style={{ color: palette.grey[700], textDecoration: "inherit", }}>Logout</Link>
+                <Box display="flex" alignItems="center">
+                <Link to="/dashboard" onClick={() => setSelected("Dashboard")} style={{ color: selected === "Dashboard" ? "inherit" : palette.grey[700], textDecoration: "inherit", }}>
+                  Dashboard
+                </Link>
+                {/* Add margin to create space between links */}
+                <Box ml={3}>
+                  <Link to={'/'} onClick={handleLogout} style={{ color: palette.grey[700], textDecoration: "inherit", }}>Logout</Link>
+                </Box>
+              </Box>
               ) : (
                 <Link to="/login" onClick={() => setSelected("Login")} style={{ color: selected === "Login" ? "inherit" : palette.grey[700], textDecoration: "inherit" }}>Login</Link>
               )}
@@ -61,3 +83,4 @@ const Header: React.FC = () => {
 };
 
 export default Header;
+

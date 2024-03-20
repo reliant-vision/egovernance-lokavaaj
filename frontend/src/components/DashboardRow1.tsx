@@ -2,6 +2,7 @@ import React, {useState, useEffect, useMemo}from "react";
 import DashboardBox from "./DashboardBox";
 import { Area, AreaChart, CartesianGrid, Label, Pie, PieChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import BoxHeader from "./BoxHeader";
+import { useTheme } from "@mui/material";
 
 interface TalukaWiseCount {
     taluka: string;
@@ -18,6 +19,7 @@ const DashboardRow1: React.FC = () => {
     const [districtwiseCounts, setDistrictWiseCounts] = useState<DistrictWiseCount[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const {palette} = useTheme();
 
   useEffect(() => {
     const fetchCounts = async () => {
@@ -62,7 +64,7 @@ const DashboardRow1: React.FC = () => {
             margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
           >
             <CartesianGrid stroke="#ccc" strokeWidth={0.1} />
-            <XAxis dataKey="taluka"  angle={0} interval={0} >
+            <XAxis dataKey="taluka"  angle={0} interval={0} color={palette.grey[400]}>
                 <Label value="Name of Taluka" offset={0} position="insideBottom" />
             </XAxis>
             <YAxis>
