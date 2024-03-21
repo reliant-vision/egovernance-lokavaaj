@@ -43,7 +43,7 @@ export const tokens = {
     background: {
         light: "#2d2d34",
         main: "#02274C",
-        grid:"#032140"
+        grid:"#2E2F2F"
     },
 };
 
