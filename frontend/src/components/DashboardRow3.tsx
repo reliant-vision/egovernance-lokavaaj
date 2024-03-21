@@ -87,32 +87,36 @@ const DashboardRow3: React.FC = () => {
         </DashboardBox>
         <DashboardBox  gridArea="h" ></DashboardBox>
         <DashboardBox  gridArea="i" >
-            <BoxHeader title={"Grievances Statistics"} sidetext={``} />
+            <BoxHeader title={"Grievances Overall Statistics"} sidetext={``} />
             <Box mt="6rem" display="flex" flexWrap="wrap" justifyContent="space-around">
+            {applicationsOverallStats && applicationsOverallStats.length > 0 && (
+                <>
                 <Box ml="-0.7rem" textAlign="center" flexBasis="calc(25% - 0.7rem)">
                     <Typography variant="h4" color="#14FCFC">Total</Typography>
                     <Typography m="0.3rem 0" variant="h3" color="#14FCFC">
-                        {applicationsOverallStats.length > 0 && applicationsOverallStats[0].total_count}
+                        {applicationsOverallStats[0].total_count}
                     </Typography>
                 </Box>
                 <Box textAlign="center" flexBasis="calc(25% - 0.7rem)">
                     <Typography variant="h4" color="#FC3714">New</Typography>
                     <Typography m="0.3rem 0" variant="h3" color="#FC3714">
-                        {applicationsOverallStats.length > 0 && applicationsOverallStats[0].open}
+                        {applicationsOverallStats[0].open}
                     </Typography>
                 </Box>
                 <Box textAlign="center" flexBasis="calc(25% - 0.7rem)">
                     <Typography variant="h4" color="#F9D612">Pending</Typography>
                     <Typography m="0.3rem 0" variant="h3" color="#F9D612">
-                        {applicationsOverallStats.length > 0 && applicationsOverallStats[0].pending_review}
+                        {applicationsOverallStats[0].pending_review}
                     </Typography>
                 </Box>
                 <Box textAlign="center" flexBasis="calc(25% - 0.7rem)">
                     <Typography variant="h4" color="#44E60B">Resolved</Typography>
                     <Typography m="0.3rem 0" variant="h3" color="#44E60B">
-                        {applicationsOverallStats.length > 0 && applicationsOverallStats[0].resolved}
+                        {applicationsOverallStats[0].resolved}
                     </Typography>
                 </Box>
+                </>
+                )}
             </Box>
         </DashboardBox>
         <DashboardBox  gridArea="j" ></DashboardBox>

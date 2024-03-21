@@ -265,36 +265,52 @@ class ApplicationsDistrictWiseCountResource(Resource):
                 .all()
             )
 
-            if not taluka_total_counts and not taluka_individual_counts:
+            statsbytype = (
+                db.session.query(Applications.grievance_type, Applications.application_status, func.count(Applications.id))
+                .group_by(Applications.grievance_type, Applications.application_status)
+                .all()
+            )
+
+            if not taluka_total_counts and not taluka_individual_counts and not statsbytype:
                 return {
                     "status_code": 404,
                     "error_message": "No applications found."
                 }
             
+            #query1
             taluka_total_counts_dict = [{"taluka": taluka, "count": count} for taluka, count in taluka_total_counts]
             total_count_df = pd.DataFrame(taluka_total_counts_dict)
+
+            #query2
             taluka_individual_counts_dict =  [{"taluka": taluka, "application_status": application_status, "count": count} for taluka, application_status, count in taluka_individual_counts]
             data_df = pd.DataFrame(taluka_individual_counts_dict)
             data_df = data_df.pivot(index='taluka', columns='application_status', values='count')
             data_df = data_df.reset_index()
             data_df = data_df[['taluka', 'open', 'pending review', 'resolved']]
+            data_df = data_df.dropna(how='all')
             data_df[['open', 'pending review', 'resolved']] = data_df[['open', 'pending review', 'resolved']].astype(int)
             data_df = data_df.merge(total_count_df, on='taluka')
             data_df = data_df.rename(columns={'count': 'total_count'})
             response = data_df.to_dict(orient='records')
-            # response.append({
-            #     "total_count": int(data_df['total_count'].sum()),
-            #     "open": int(data_df['open'].sum()),
-            #     "pending review": int(data_df['pending review'].sum()),
-            #     "resolved": int(data_df['resolved'].sum())
-            # })
-            # print(response[-1])
+
+            #query3
+            statsbytype_dict = [{"grievance_type": grievance_type, "application_status": application_status, "count": count} for grievance_type, application_status, count in statsbytype]
+            statsbytype_df = pd.DataFrame(statsbytype_dict)
+            statsbytype_df = statsbytype_df.pivot(index='grievance_type', columns='application_status', values='count')
+            statsbytype_df = statsbytype_df.reset_index()
+            statsbytype_df['total_count'] = statsbytype_df['open'] + statsbytype_df['pending review'] + statsbytype_df['resolved']
+            statsbytype_df = statsbytype_df.rename(columns={'pending review': 'pending_review'})
+            statsbytype = statsbytype_df.to_dict(orient='records')
+
+            
+
+
             return [response, [{
                 "total_count": int(data_df['total_count'].sum()),
                 "open": int(data_df['open'].sum()),
                 "pending_review": int(data_df['pending review'].sum()),
                 "resolved": int(data_df['resolved'].sum())
-            }]]
+            }], statsbytype]
         except Exception as e:
             return {
                 "status_code": 400,

@@ -18,3 +18,66 @@
     font-weight: bold; /* Make the header text bold */
     /* Add any other custom styles for the header */
   }
+
+.table-header {
+    color: #fff;
+    font-weight: bold;
+    padding: 10rem;
+    font-family: sans-serif;
+}
+
+.table-header th{
+    padding: 0.5rem;
+    align-items: center;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+.table-body {
+    padding: 10rem;
+}
+
+.table-body td{
+    padding: 0.5rem;
+    align-items: center;
+}
+
+.td-grievance-type{
+    color: #fff;
+    font-weight: bold;
+}
+
+.td-total-count{
+    color:#C0C2BF;
+}
+
+.td-open{
+    color:#FAA697;
+}
+
+.td-pending-review{
+    color:#dee391;
+}
+
+.td-resolved{
+    color:#A3D887;
+    padding: 0.5rem;
+}
+
+
+.th-total-count{
+    color:#C0C2BF;
+}
+
+.th-open{
+    color:#FAA697;
+}
+
+.th-pending-review{
+    color:#dee391;
+}
+
+.th-resolved{
+    color:#A3D887;
+}
+
