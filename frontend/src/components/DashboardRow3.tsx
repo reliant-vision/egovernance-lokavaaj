@@ -78,8 +78,8 @@ const DashboardRow3: React.FC = () => {
                             <Tooltip />
                             <Legend />
                             <CartesianGrid stroke="#ccc" strokeWidth={0.1} />
-                            <Area type="monotone" dataKey="open" fill="#AED6F1" stroke="#8884d8" />
-                            <Bar dataKey="pending review" barSize={20} fill="#F39C12" />
+                            <Area type="monotone" dataKey="open" fill="#EFFAF4" stroke="#8884d8" />
+                            <Bar dataKey="pending review" barSize={20} fill="#DFAF48" />
                             <Line type="monotone" dataKey="resolved" stroke="#2ECC71" />
                         </ComposedChart>
                     </Box>

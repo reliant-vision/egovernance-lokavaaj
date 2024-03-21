@@ -75,7 +75,7 @@ const DashboardRow1: React.FC = () => {
               type="monotone"
               dataKey="count"
               stroke="#8884d8"
-              fill="#8884d8"
+              fill="#EFFAF4"
             />
             <ReferenceLine y={0} stroke="#000" />
           </AreaChart>

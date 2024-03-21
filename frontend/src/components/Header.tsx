@@ -31,8 +31,12 @@ const Header: React.FC = () => {
     <FlexBetween mb="0.25rem" p="0.5rem 0rem" color={palette.grey[300]}>
       {/* Left Side */}
         <FlexBetween gap="0.75rem">
-          <Typography variant='h4' fontSize="16px">
-            Lok Avaaj
+        <Box display="flex" alignItems="center">
+          <img src={logo} alt="Logo" style={{ marginRight: '0.5rem', height: '125px', width: 'auto' }} />
+          </Box>
+          <Typography variant='h4' fontSize="28px">
+            <p>Lok Avaaj</p>
+            <p>Government of GOA</p>
           </Typography>
         </FlexBetween>
       {/* Right Side */}

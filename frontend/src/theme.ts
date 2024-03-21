@@ -4,7 +4,7 @@ export const tokens = {
     grey: {
         100: "#e7f3fb",
         200: "#cee6f6",
-        300: "#f2f7fa",
+        300: "#F6F9FA",
         400: "#fafafb",
         500: "#85c1e9",
         600: "#6a9aba",
@@ -42,7 +42,8 @@ export const tokens = {
     },
     background: {
         light: "#2d2d34",
-        main: "#1f2026"
+        main: "#02274C",
+        grid:"#032140"
     },
 };
 
@@ -67,7 +68,8 @@ export const themeSettings = {
         },
         background: {
             default: tokens.background.main,
-            light: tokens.background.light
+            light: tokens.background.light,
+            grid: tokens.background.grid
         },
     },
     typography: {
