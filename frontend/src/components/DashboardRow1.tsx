@@ -57,7 +57,7 @@ const DashboardRow1: React.FC = () => {
     return (
         <>
         <DashboardBox  gridArea="a" >
-        <BoxHeader title={"Number of Applications Taluka Wise"} sidetext={``} />
+        <BoxHeader title={"Number of Applications Taluka/Mandal Wise"} sidetext={``} />
         <ResponsiveContainer width="100%" height={300}>
           <AreaChart
             data={talukawiseCounts}
@@ -89,7 +89,7 @@ const DashboardRow1: React.FC = () => {
 
 
         <DashboardBox  gridArea="b" >
-        <BoxHeader title={"Number of Applications Taluka Wise & District Wise"} sidetext={``} />
+        <BoxHeader title={"Number of Applications Taluka/Mandal Wise & District Wise"} sidetext={``} />
         <ResponsiveContainer width="100%" height={300}>
         <PieChart width={300} height={250}>
             <Pie data={districtwiseCounts} dataKey="count" nameKey="district" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" />

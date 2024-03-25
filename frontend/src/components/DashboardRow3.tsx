@@ -69,7 +69,7 @@ const DashboardRow3: React.FC = () => {
     return (
         <>
         <DashboardBox  gridArea="e" >
-        <BoxHeader title="Taluka Wise Applications Report" subtitle="" sidetext="" />
+        <BoxHeader title="Taluka/Mandal Wise Applications Report" subtitle="" sidetext="" />
             <ResponsiveContainer width="100%" height={300}>
                     <Box>
                         <ComposedChart width={900} height={280} data={applicationsStats}>

@@ -1,8 +1,7 @@
-import { Box, Paper, Grid, styled, Typography, Button,Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select, TextField, Autocomplete } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box, Paper, Grid, styled, Typography, Button,Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select, TextField, Autocomplete, Menu, MenuItem, SelectChangeEvent, Snackbar } from "@mui/material";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
-import { MenuItem } from "@mui/base";
 
 interface Application {
     application_number: string;
@@ -28,9 +27,18 @@ interface Application {
 }
 
 interface ApplicationUpdate{
-    
+    username: string;
+    email: string;
+    assigned_to: string;
+    application_status: string;
+    remarks: string;
 }
 
+interface UserData{
+    username: string;
+    email: string;
+    designation: string;
+}
 
 const ApplicationsDetails: React.FC = () => {
     const { application_number } = useParams<{ application_number: string }>();
@@ -38,8 +46,11 @@ const ApplicationsDetails: React.FC = () => {
     const [error, setError] = useState('');
     const [applicationData, setApplicationData] = useState<Application | null>(null);
     const [openEditDialog, setOpenEditDialog] = useState(false);
-    const [assignedTo, setAssignedTo] = useState<ApplicationUpdate | null>(null);
-    const [remarks, setRemarks] = useState<ApplicationUpdate | null>(null);
+    const [usersData, setUsersData] = useState<UserData[] | null>(null);
+    const [applicationUpdateData, setApplicationUpdateData] = useState<ApplicationUpdate | null>(null);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    
 
     useEffect(() => {
         const fetchApplication = async () => {
@@ -63,7 +74,7 @@ const ApplicationsDetails: React.FC = () => {
                     throw new Error('Failed to fetch data');
                 }
                 const data = await response.json();
-                setAssignedTo(data);
+                setUsersData(data.map((app: UserData, index: number) => ({ ...app, id: index })));
                 setLoading(false);
             } catch (error) {
                 console.error('Error:', error);
@@ -81,6 +92,33 @@ const ApplicationsDetails: React.FC = () => {
     const handleCloseEditDialog = () => {
         setOpenEditDialog(false);
     };
+
+    const handleSelectChange = (event: SelectChangeEvent<string>) => {
+        const newValue = event.target.value as string;
+        setApplicationUpdateData(prevState => ({
+            ...prevState!,
+            application_status: newValue
+        }));
+    };
+
+    const [remarks, setRemarks] = useState<string>(
+        applicationData ? applicationData.remarks : ''
+    );
+
+    const handleRemarksChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = event.target.value;
+        setApplicationUpdateData(prevState => ({
+            ...prevState!,
+            remarks: newValue
+        }));
+    };
+
+    const handleOpenSnackbar = (message: string) => {
+        setSnackbarMessage(message);
+        setOpenSnackbar(true);
+    };
+    
+    
 
     if (loading) {
         return <div>Loading...</div>;
@@ -106,6 +144,28 @@ const ApplicationsDetails: React.FC = () => {
         return value !== null && value !== '' ? value : "NA";
     };
     
+    const handleSave = async () => {
+        try {
+            const response = await fetch(`/applications/${application_number}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(applicationUpdateData),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to update data');
+            }
+            // Optionally, you can fetch the updated data again to reflect the changes
+            // const updatedData = await response.json();
+            // setApplicationData(updatedData);
+            handleOpenSnackbar('Data updated successfully');
+            handleCloseEditDialog();
+        } catch (error) {
+            console.error('Error:', error);
+            setError('Failed to update data');
+        }
+    };
 
     return (
         <Box mt="0.5rem" ml="12rem" p="0 0.5rem" display="flex" justifyContent="center" width="75%" sx={{ backgroundColor: '#DCDAD8' }}>
@@ -258,25 +318,47 @@ const ApplicationsDetails: React.FC = () => {
                                 
                 </Grid>
             </Box>
-            <Dialog open={openEditDialog} onClose={handleCloseEditDialog}>
-                <DialogTitle>Edit Application</DialogTitle>
-                <DialogContent>         
-                    <Box>
+            <Dialog
+                open={openEditDialog}
+                onClose={handleCloseEditDialog}
+                sx={{
+                    width: '100%',
+                    height: '100%',
+                    '& .MuiDialogTitle-root': {
+                        backgroundColor: '#f0f0f0',
+                        borderBottom: '1px solid #ccc',
+                    },
+                    '& .MuiDialogContent-root': {
+                        paddingTop: '24px',
+                    },
+                    '& .MuiTypography-subtitle1': {
+                        marginBottom: '8px',
+                        fontWeight: 'bold',
+                    },
+                    '& .MuiFormControl-root': {
+                        width: '100%',
+                    },
+                    '& .MuiTextField-root': {
+                        width: '100%',
+                    },
+                }}
+            >
+                <DialogTitle><Typography display='flex' variant="h3" sx={{color:"black"}}>Edit Application</Typography></DialogTitle>
+                <DialogContent>
+                    <Box width="500px">
                         <Typography variant="subtitle1">Update Application Status:</Typography>
-                        <FormControl fullWidth>
-                            <InputLabel id="application-status-label">Application Status</InputLabel>
+                        <FormControl>
+                            {/* <InputLabel id="application-status-label">Application Status</InputLabel> */}
                             <Select
                                 labelId="application-status-label"
                                 id="application-status-select"
+                                value={applicationUpdateData?.application_status || applicationData.application_status || ''}
+                                onChange={handleSelectChange}
                             >
-                                {/* {applicationStatusOptions.map((option) => (
-                                    <MenuItem key={option} value={option}>
-                                        {option}
-                                    </MenuItem>
-                                ))} */}
-                                <MenuItem>open</MenuItem>
-                                <MenuItem>pending review</MenuItem>
-                                <MenuItem>resolved</MenuItem>
+                                <MenuItem value="open">open</MenuItem>
+                                <MenuItem value="pending review">pending review</MenuItem>
+                                <MenuItem value="resolved">resolved</MenuItem>
+
                             </Select>
                         </FormControl>
                     </Box>
@@ -287,29 +369,39 @@ const ApplicationsDetails: React.FC = () => {
                             multiline
                             rows={4}
                             variant="outlined"
-                            fullWidth
-                            value={remarks}
-                            onChange={(e) => setRemarks(e.target.value)}
+                            value={applicationUpdateData?.remarks || applicationData.remarks || ''}
+                            onChange={handleRemarksChange}
                         />
                     </Box>
                     <Box mt={2}>
-                        <Typography variant="subtitle1">Assigned To:</Typography>
-                        {/* <Autocomplete
+                        <Typography variant="subtitle1">Assign To:</Typography>
+                        <Autocomplete
                             id="assigned-to-autocomplete"
-                            options= ""// Array of users fetched from the database
-                            getOptionLabel={(option) => option.name} // Display the user's name in the autocomplete
-                            onChange={(event: any, newValue: any | null) => {
-                                setAssignedTo(newValue);
+                            options={(usersData || []).map(user => user.username)}// Extracting usernames
+                            getOptionLabel={(option) => option} // Assuming usernames are strings
+                            onChange={(event: any, newValue: string | null) => {
+                                setApplicationUpdateData(prevState => ({
+                                    ...prevState!,
+                                    assigned_to: newValue || ''
+                                }));
                             }}
                             renderInput={(params) => <TextField {...params} label="Assigned To" variant="outlined" />}
-                        /> */}
+                        />
+
                     </Box>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseEditDialog}>Cancel</Button>
-                    <Button variant="contained" color="primary" onClick={handleCloseEditDialog}>Save</Button>
+                    <Button variant="contained" color="primary" onClick={handleSave}>Save</Button>
                 </DialogActions>
             </Dialog>
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={6000}
+                onClose={() => setOpenSnackbar(false)}
+                message={snackbarMessage}
+            />
+
         </Box>
     );
 };

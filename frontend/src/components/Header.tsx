@@ -16,6 +16,8 @@ const Header: React.FC = () => {
     return currentPath.slice(1) || 'Home'; // Initialize selected link based on current location
   });
 
+  const [isHovering, setIsHovering] = useState(false);
+
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove token from localStorage
   };
@@ -26,6 +28,17 @@ const Header: React.FC = () => {
     setSelected(selectedLink);
   }, [location.pathname]);
 
+  const handleMouseEnter = () => {
+    // Handle mouse enter event for Services link
+    // Show additional links on hover
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    // Handle mouse leave event for Services link
+    // Hide additional links when mouse leaves
+    setIsHovering(false);
+  };
 
   return (
     <FlexBetween mb="0.25rem" p="0.5rem 0rem" color={palette.grey[300]}>
@@ -56,10 +69,37 @@ const Header: React.FC = () => {
               <Typography variant='h5' >Departments</Typography>
               </Link>
             </Box>
-            <Box sx={{"$:hover": {color:palette.primary[100]}}}>
-              <Link to="/services" onClick={()=>setSelected("Services")} style={{color:selected ==="Services" ? "inherit" : palette.grey[700], textDecoration: "inherit", }}>
-              <Typography variant='h5' >Services</Typography>
-              </Link>
+            <Box
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              sx={{ position: 'relative' }}
+            >
+              <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
+                <Link to="/services" onClick={() => setSelected("Services")} style={{ color: selected === "Services" ? "inherit" : palette.grey[700], textDecoration: "inherit" }}>
+                  <Typography variant='h5'>Services</Typography>
+                </Link>
+              </Box>
+              {/* Additional links */}
+              {isHovering && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: 0,
+                    width: '450%',
+                    backgroundColor: palette.secondary.dark,
+                    padding: '0.5rem',
+                    zIndex: 1,
+                  }}
+                >
+                  <Link to="/NewApplication" style={{ color: palette.grey[800], textDecoration: "inherit" }}>
+                    <Typography>New Application</Typography>
+                  </Link>
+                  <Link to="/KnowYourApplicationStatus" style={{ color: palette.text.primary, textDecoration: "inherit" }}>
+                    <Typography>Know Your Application Status</Typography>
+                  </Link>
+                </Box>
+              )}
             </Box>
             <Box sx={{"$:hover": {color:palette.primary[100]}}}>
               <Link to="/contacts" onClick={()=>setSelected("Contacts")} style={{color:selected ==="Contacts" ? "inherit" : palette.grey[700], textDecoration: "inherit", }}>

@@ -47,7 +47,6 @@ class Applications(db.Model):
     remarks = db.Column(db.Text(), nullable=True)
     assigned_to = db.Column(db.String(100), nullable=True)
 
-
     def __repr__(self):
         return f"<Applications {self.application_number}>"
     
@@ -55,10 +54,12 @@ class Applications(db.Model):
         db.session.add(self)
         db.session.commit()
     
-    def update(self, application_status, assigned_to ):
+    def update(self, application_status, remarks, assigned_to ):
         self.application_status = application_status
+        self.remarks = remarks
         self.assigned_to = assigned_to
         db.session.commit()
+
 
 
 class Users(db.Model):

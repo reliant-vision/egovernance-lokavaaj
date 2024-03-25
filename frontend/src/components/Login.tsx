@@ -26,7 +26,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       if (response.ok) {
         localStorage.setItem('token', data.token); // Store token in localStorage
         onLogin(); // Call the onLogin function to handle successful login
-        navigate('/dashboard'); // Navigate to the dashboard page
+        navigate('/applications'); // Navigate to the dashboard page
       } else {
         setError(data.message); // Set error message if authentication fails
       }

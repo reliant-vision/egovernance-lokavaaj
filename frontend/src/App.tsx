@@ -12,6 +12,8 @@ import Footer from './components/Footer';
 import "../src/styles/footer.css";
 import FetchApplications from './components/FetchApplications';
 import ApplicationsDetails from './components/ApplicationDetails';
+import CreateApplication from './components/CreateApplication';
+import ApplicationStatus from './components/ApplicationStatus';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -36,6 +38,8 @@ const App: React.FC = () => {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/applications" element={<FetchApplications/>} />
                 <Route path="/applications/:application_number" element={<ApplicationsDetails/>} />
+                <Route path="/NewApplication" element={<CreateApplication/>} />
+                <Route path= "/KnowYourApplicationStatus" element={<ApplicationStatus/>} />
             </Routes>
             </Box>
             <Footer/>

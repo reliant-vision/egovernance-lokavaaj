@@ -133,7 +133,7 @@ class ApplicationsResource(Resource):
         return jsonify(application_dict)
         
     # @app_ns.marshal_with(application_model)
-    @jwt_required()
+    # @jwt_required()
     def put(self, application_number):
         """Update an application by application number"""
         update_application = Applications.query.filter_by(application_number=application_number).first()
@@ -143,9 +143,9 @@ class ApplicationsResource(Resource):
                 "status_code": 404,
                 "error_message": "Application Not Found"
             }
-        update_application.update(data.get('application_status'), data.get('assigned_to'))
+        update_application.update(data.get('application_status'), data.get('remarks'), data.get('assigned_to'))
         update_application = get_application_dict(update_application)
-        return update_application
+        return jsonify(update_application)
     
 @app_ns.route('/district/<string:district>')
 class ApplicationsByDistrictResource(Resource):

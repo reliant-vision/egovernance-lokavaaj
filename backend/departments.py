@@ -27,11 +27,14 @@ def get_departments_dict(departments):
 
 @departments_ns.route('/')
 class DepartmentsResource(Resource):
-    @departments_ns.marshal_list_with(departments_model)
-    @jwt_required()
+    # @departments_ns.marshal_list_with(departments_model)
+    # @jwt_required()
     def get(self):
         """Get all Departments"""
+        departments_data = []
         departments = Departments.query.all()
-        
-        return departments
+        for department in departments:
+            departments_dict = get_departments_dict(department)
+            departments_data.append(departments_dict)
+        return departments_data
 
