@@ -34,6 +34,13 @@ def get_new_user_dict(new_user):
     "password": new_user.password
     }
 
+def get_user_dict(user):
+    return {
+    "username": user.username,
+    "email": user.email,
+    "designation": user.designation
+    }
+
 @auth_ns.route('/signup')
 class SignUp(Resource):
     # @auth_ns.marshal_with(signup_model)
@@ -92,3 +99,22 @@ class RefreshResoure(Resource):
         current_user = get_jwt_identity()
         new_access_token = create_access_token(identity=current_user)
         return make_response(jsonify({"access_token":new_access_token}), 200)
+
+@auth_ns.route('/users')
+class UsersResoure(Resource):
+    # @jwt_required(refresh=True)
+    def get(self):
+        """Get all Users"""
+        users_data = []
+        users = Users.query.all()
+        for user in users:
+            user_dict = get_user_dict(user)
+            keys = ['username', 'email', "designation"]
+            user_dict = {key: user_dict[key] for key in keys if key in user_dict}
+            users_data.append(user_dict)
+        return users_data
+        # current_user = get_jwt_identity()
+        # new_access_token = create_access_token(identity=current_user)
+        # return make_response(jsonify({"access_token":new_access_token}), 200)
+
+

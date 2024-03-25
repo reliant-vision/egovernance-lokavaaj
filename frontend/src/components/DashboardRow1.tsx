@@ -84,11 +84,11 @@ const DashboardRow1: React.FC = () => {
         
 
 
-        <DashboardBox  gridArea="b" ></DashboardBox>
+        {/* <DashboardBox  gridArea="b" ></DashboardBox> */}
         
 
 
-        <DashboardBox  gridArea="c" >
+        <DashboardBox  gridArea="b" >
         <BoxHeader title={"Number of Applications Taluka Wise & District Wise"} sidetext={``} />
         <ResponsiveContainer width="100%" height={300}>
         <PieChart width={300} height={250}>

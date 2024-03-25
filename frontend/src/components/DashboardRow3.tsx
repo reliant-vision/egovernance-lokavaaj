@@ -68,7 +68,7 @@ const DashboardRow3: React.FC = () => {
 
     return (
         <>
-        <DashboardBox  gridArea="g" >
+        <DashboardBox  gridArea="e" >
         <BoxHeader title="Taluka Wise Applications Report" subtitle="" sidetext="" />
             <ResponsiveContainer width="100%" height={300}>
                     <Box>
@@ -85,8 +85,8 @@ const DashboardRow3: React.FC = () => {
                     </Box>
             </ResponsiveContainer>
         </DashboardBox>
-        <DashboardBox  gridArea="h" ></DashboardBox>
-        <DashboardBox  gridArea="i" >
+        {/* <DashboardBox  gridArea="h" ></DashboardBox> */}
+        <DashboardBox  gridArea="f" >
             <BoxHeader title={"Grievances Overall Statistics"} sidetext={``} />
             <Box mt="6rem" display="flex" flexWrap="wrap" justifyContent="space-around">
             {applicationsOverallStats && applicationsOverallStats.length > 0 && (
@@ -119,7 +119,7 @@ const DashboardRow3: React.FC = () => {
                 )}
             </Box>
         </DashboardBox>
-        <DashboardBox  gridArea="j" ></DashboardBox>
+        {/* <DashboardBox  gridArea="j" ></DashboardBox> */}
         </>
     );
 }

@@ -5,6 +5,7 @@ from models import Applications
 from sqlalchemy import func
 from exts import db
 import pandas as pd
+from datetime import datetime
 
 app_ns = Namespace('applications', description='Namespace for Applications')
 
@@ -76,7 +77,7 @@ class ApplicationResource(Resource):
         applications = Applications.query.all()
         for application in applications:
             application_dict = get_application_dict(application)
-            keys = ['application_number', 'applicant_name', 'grievance_type', 'application_status']
+            keys = ['application_number', 'applicant_name', 'grievance_type', 'application_status', 'district', 'taluka', 'assembly_constituency']
             application_dict = {key: application_dict[key] for key in keys if key in application_dict}
             applications_data.append(application_dict)
         return applications_data
@@ -116,7 +117,7 @@ class ApplicationResource(Resource):
 @app_ns.route('/<string:application_number>')
 class ApplicationsResource(Resource):
     # @app_ns.marshal_with(application_model)
-    @jwt_required()
+    # @jwt_required()
     def get(self, application_number):
         """Get an application by application number"""
         application = Applications.query.filter_by(application_number=application_number).first()
@@ -127,6 +128,8 @@ class ApplicationsResource(Resource):
                 "error_message": "Application Not Found"
             }
         application_dict = get_application_dict(application)
+        dob = application_dict['dob'].strftime("%d/%m/%Y") 
+        application_dict['dob'] = dob
         return jsonify(application_dict)
         
     # @app_ns.marshal_with(application_model)
@@ -251,6 +254,7 @@ class ApplicationsDistrictWiseCountResource(Resource):
 
 @app_ns.route('/appstats')
 class ApplicationsDistrictWiseCountResource(Resource):
+    # @jwt_required()
     def get(self):
         """Fetch applications taluka wise count"""
         try:

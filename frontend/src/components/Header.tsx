@@ -40,45 +40,54 @@ const Header: React.FC = () => {
           </Typography>
         </FlexBetween>
       {/* Right Side */}
-        <FlexBetween gap="2rem">
-            <Box sx={{"$:hover": {color:palette.primary[100]}}}>
+        <FlexBetween gap="2rem" mr="5rem">
+            <Box sx={{"$:hover": {color:palette.primary[800]}}}>
               <Link to="/home" onClick={()=>setSelected("Home")} style={{color:selected ==="Home" ? "inherit" : palette.grey[700], textDecoration: "inherit", }}>
-                Home
+                <Typography variant='h5'  sx={{"$:hover": {color:palette.primary[700]}}}>Home</Typography>
               </Link>
             </Box>
             <Box sx={{"$:hover": {color:palette.primary[100]}}}>
               <Link to="/about" onClick={()=>setSelected("About")} style={{color:selected ==="About" ? "inherit" : palette.grey[700], textDecoration: "inherit",}}>
-                About
+              <Typography variant='h5' >About</Typography>
               </Link>
             </Box>
             <Box sx={{"$:hover": {color:palette.primary[100]}}}>
               <Link to="/departments" onClick={()=>setSelected("Departments")} style={{color:selected ==="Departments" ? "inherit" : palette.grey[700], textDecoration: "inherit", }}>
-                Departments
+              <Typography variant='h5' >Departments</Typography>
               </Link>
             </Box>
             <Box sx={{"$:hover": {color:palette.primary[100]}}}>
               <Link to="/services" onClick={()=>setSelected("Services")} style={{color:selected ==="Services" ? "inherit" : palette.grey[700], textDecoration: "inherit", }}>
-                Services
+              <Typography variant='h5' >Services</Typography>
               </Link>
             </Box>
             <Box sx={{"$:hover": {color:palette.primary[100]}}}>
               <Link to="/contacts" onClick={()=>setSelected("Contacts")} style={{color:selected ==="Contacts" ? "inherit" : palette.grey[700], textDecoration: "inherit", }}>
-                Contacts
+              <Typography variant='h5' >Contacts</Typography>
               </Link>
             </Box>
             <Box sx={{"$:hover": {color:palette.primary[100]}}}>
               {isLoggedIn ? (
-                <Box display="flex" alignItems="center">
-                <Link to="/dashboard" onClick={() => setSelected("Dashboard")} style={{ color: selected === "Dashboard" ? "inherit" : palette.grey[700], textDecoration: "inherit", }}>
-                  Dashboard
+              <Box display="flex" alignItems="center">
+                <Link to="/applications" onClick={() => setSelected("FetchApplications")} style={{ color: selected === "FetchApplications" ? "inherit" : palette.grey[700], textDecoration: "inherit", }}>
+                <Typography variant='h5' >Applications</Typography>
                 </Link>
+                <Box ml={3}>
+                <Link to="/dashboard" onClick={() => setSelected("Dashboard")} style={{ color: selected === "Dashboard" ? "inherit" : palette.grey[700], textDecoration: "inherit", }}>
+                <Typography variant='h5' >Dashboard</Typography>
+                </Link>
+                </Box>
                 {/* Add margin to create space between links */}
                 <Box ml={3}>
-                  <Link to={'/'} onClick={handleLogout} style={{ color: palette.grey[700], textDecoration: "inherit", }}>Logout</Link>
+                  <Link to={'/'} onClick={handleLogout} style={{ color: palette.grey[700], textDecoration: "inherit", }}>
+                  <Typography variant='h5' >Logout</Typography>
+                  </Link>
                 </Box>
               </Box>
               ) : (
-                <Link to="/login" onClick={() => setSelected("Login")} style={{ color: selected === "Login" ? "inherit" : palette.grey[700], textDecoration: "inherit" }}>Login</Link>
+                <Link to="/login" onClick={() => setSelected("Login")} style={{ color: selected === "Login" ? "inherit" : palette.grey[700], textDecoration: "inherit" }}>
+                  <Typography variant='h5' >Login</Typography>
+                </Link>
               )}
             </Box>
         </FlexBetween>

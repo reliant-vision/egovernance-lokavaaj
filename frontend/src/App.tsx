@@ -10,6 +10,8 @@ import { themeSettings } from './theme';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import "../src/styles/footer.css";
+import FetchApplications from './components/FetchApplications';
+import ApplicationsDetails from './components/ApplicationDetails';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -32,6 +34,8 @@ const App: React.FC = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login onLogin={handleLogin} />} /> {/* Pass the onLogin prop */}
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/applications" element={<FetchApplications/>} />
+                <Route path="/applications/:application_number" element={<ApplicationsDetails/>} />
             </Routes>
             </Box>
             <Footer/>

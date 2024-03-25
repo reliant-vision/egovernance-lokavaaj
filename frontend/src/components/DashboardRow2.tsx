@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import DashboardBox from "./DashboardBox";
 import { Box, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { DataGrid, GridCellParams, DataGridProps } from "@mui/x-data-grid";
+import { DataGrid, GridCellParams, DataGridProps, GridRow, GridRowsProp, GridColDef, GridRowId } from "@mui/x-data-grid";
 import BoxHeader from "./BoxHeader";
 import "../styles/data-grid.css";
+import { Link } from "react-router-dom";
 
 type Props = {};
 
+
+
 interface Applications {
-    id: number;
+    id: GridRowId;
     application_number: string;
     applicant_name: string;
     grievance_type: string;
@@ -34,8 +37,16 @@ const DashboardRow2: React.FC = () => {
     const {palette} = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const filteredApplicationsColumns = [
-        { field: "application_number", headerName: "Application Number", flex: 0.5},
+    const filteredApplicationsColumns: GridColDef[] = [
+        { field: "application_number", 
+        headerName: "Application Number", 
+        flex: 0.5,
+        renderCell: (params: GridCellParams) => (
+            <Link to={`/applications/${params.value}`} style={{color:palette.grey[500]}}>
+                {String(params.value)}
+            </Link>
+          ),
+        },
         { field: "applicant_name", headerName: "Applicant Name", flex: 0.5 },
         { field: "grievance_type", headerName: "Grievance Type", flex: 1 },
         { field: "application_status", headerName: "Application Status", flex: 1 }
@@ -103,10 +114,10 @@ const DashboardRow2: React.FC = () => {
 
     return (
         <>
-            <DashboardBox gridArea="d">
+            <DashboardBox gridArea="c">
                 <BoxHeader title={"Grievance Statistics By Type"} sidetext={``} />
                 <Box ml="2rem" mt="2rem">
-                    <table>
+                    <table style={{ width: '100%', height:'400px' }}>
                         <thead className="table-header">
                             <tr>
                                 <th></th>
@@ -130,7 +141,7 @@ const DashboardRow2: React.FC = () => {
                     </table>
                 </Box>
             </DashboardBox>
-            <DashboardBox gridArea="e">
+            <DashboardBox gridArea="d">
                 <BoxHeader title={"List of Grievance Applications"} sidetext={`${filteredApplications?.length} Total Applications`} />
                 <Box
                     mt="0.5rem"
@@ -157,24 +168,25 @@ const DashboardRow2: React.FC = () => {
                                     borderColor: palette.primary.main, // Border color when focused
                                 },
                             },
-                            width: "33%"
+                            width: "30%",
                         }}
                     />
                     <DataGrid
                         columns={filteredApplicationsColumns} 
-                        rows={filteredApplications || []}
+                        rows={filteredApplications}
                         hideFooter
                         getRowId={(row) => row.id}
                         sx={{
                             '& .MuiDataGrid-columnHeader':{
                                 color: "#11FEFE",
                             },
-                            color: palette.grey[400]
+                            color: palette.grey[400],
+                            height: '265px',
                         }}
                     />
                 </Box>
             </DashboardBox>
-            <DashboardBox gridArea="f" />
+            {/* <DashboardBox gridArea="f" /> */}
         </>
     );
 }
