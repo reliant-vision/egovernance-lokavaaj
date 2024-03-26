@@ -1,8 +1,8 @@
 
 import { Box, Typography, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import FlexBetween from './FlexBetween';
+import { Link } from 'react-router-dom';
+
 
 interface Department {
     name: string;
@@ -23,7 +23,7 @@ const Departments: React.FC = () => {
     useEffect(() => {
         const fetchDepartments = async () => {
             try {
-                const response = await fetch('/departments');
+                const response = await fetch('/departments/');
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
