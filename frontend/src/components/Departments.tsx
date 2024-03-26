@@ -22,7 +22,7 @@ const Departments: React.FC = () => {
 
     useEffect(() => {
         const fetchDepartments = async () => {
-            try {
+            // try {
                 const response = await fetch('/departments/');
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
@@ -30,11 +30,11 @@ const Departments: React.FC = () => {
                 const data = await response.json();
                 setDepartments(data.map((department: Department, index: number) => ({ ...department, id: index })));
                 setLoading(false);
-            } catch (error) {
-                console.error('Error:', error);
-                setError('Failed to fetch data');
-                setLoading(false);
-            }
+            // } catch (error) {
+            //     console.error('Error:', error);
+            //     setError('Failed to fetch data');
+            //     setLoading(false);
+            // }
         };
 
         fetchDepartments();
