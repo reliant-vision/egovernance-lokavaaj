@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import {Box, Typography, useTheme} from "@mui/material"
 import FlexBetween from './FlexBetween';
 
-const logo = require('../assets/logo.png')
+const logo = require('../assets/goalogowhite.png')
 
 const Header: React.FC = () => {
   const isLoggedIn = !!localStorage.getItem('token'); // Check if user is logged in
