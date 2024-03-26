@@ -12,7 +12,6 @@ const Header: React.FC = () => {
 
   const [selected, setSelected] = useState(() => {
     const currentPath = location.pathname;
-    console.log("current path", currentPath);
     return currentPath.slice(1) || 'Home'; // Initialize selected link based on current location
   });
 

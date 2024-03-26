@@ -14,13 +14,16 @@ import FetchApplications from './components/FetchApplications';
 import ApplicationsDetails from './components/ApplicationDetails';
 import CreateApplication from './components/CreateApplication';
 import ApplicationStatus from './components/ApplicationStatus';
+import Departments from './components/Departments';
+import Portfolios from './components/Portfolios';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
-
   const handleLogin = () => {
     navigate('/dashboard');
   };
+
+
 
   const theme = useMemo(()=> createTheme(themeSettings), []);
 
@@ -34,12 +37,13 @@ const App: React.FC = () => {
             <Box flexGrow={1}>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login onLogin={handleLogin} />} /> {/* Pass the onLogin prop */}
+                <Route path="/login" element={<Login onLogin={handleLogin} />} /> 
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/applications" element={<FetchApplications/>} />
                 <Route path="/applications/:application_number" element={<ApplicationsDetails/>} />
                 <Route path="/NewApplication" element={<CreateApplication/>} />
                 <Route path= "/KnowYourApplicationStatus" element={<ApplicationStatus/>} />
+                <Route path="/departments/*" element={<Departments/>} />
             </Routes>
             </Box>
             <Footer/>
