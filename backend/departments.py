@@ -36,5 +36,5 @@ class DepartmentsResource(Resource):
         for department in departments:
             departments_dict = get_departments_dict(department)
             departments_data.append(departments_dict)
-        return departments_data
+        return jsonify(departments_data)
 
