@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
     <FlexBetween mb="0.25rem" p="0rem 28rem " color={palette.grey[300]} textAlign="center">
     <FlexBetween gap="0.75rem">
           <Typography variant='h4' fontSize="12px">
-              Copyright © 2024 | All rights reserved | Govt of Goa | Developed by Reliant Vision Technologies
+              Copyright © 2024 | All rights reserved | Govt. of Telangana | Developed by Reliant Vision Technologies
           </Typography>
     </FlexBetween>
     </FlexBetween>
