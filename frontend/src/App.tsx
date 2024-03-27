@@ -16,6 +16,7 @@ import CreateApplication from './components/CreateApplication';
 import ApplicationStatus from './components/ApplicationStatus';
 import Departments from './components/Departments';
 import Portfolios from './components/Portfolios';
+import About from './components/About';
 
 const App: React.FC = () => {
   const navigate = useNavigate();
@@ -38,6 +39,8 @@ const App: React.FC = () => {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login onLogin={handleLogin} />} /> 
+                <Route path="/home" element={<Home/>} />
+                <Route path="/about" element={<About/>} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/applications" element={<FetchApplications/>} />
                 <Route path="/applications/:application_number" element={<ApplicationsDetails/>} />

@@ -1,8 +1,6 @@
-
 import { Box, Typography, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
 
 interface Department {
     name: string;
@@ -15,10 +13,11 @@ const Departments: React.FC = () => {
     const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [firstDepartmentLoaded, setFirstDepartmentLoaded] = useState(false); 
+    const [selected, setSelected] = useState<string | null>(null);
+
 
     const {palette} = useTheme();
-
-    const [selected, setSelected] = useState();
 
     useEffect(() => {
         const fetchDepartments = async () => {
@@ -43,6 +42,13 @@ const Departments: React.FC = () => {
         fetchDepartments();
     }, []);
 
+    useEffect(() => {
+        if (departments.length > 0 && !selectedDepartment) {
+            setSelectedDepartment(departments[0].name);
+            setFirstDepartmentLoaded(true);
+        }
+    }, [departments, selectedDepartment]);
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -63,7 +69,7 @@ const Departments: React.FC = () => {
                         <div key={department.id}>
                             <Box mb="0.3rem" alignContent="center" p="0 2rem">
                             <Link to={`/departments/${department.name}`} onClick={() => handleDepartmentClick(department.name)} style={{color:selected === department.name ? "inherit" : palette.grey[700], textDecoration: "inherit"}}>
-                                <Typography variant='h5'  sx={{"$:hover": {color:palette.primary[700]}}}>{department.name}</Typography>
+                                <Typography variant='h5' sx={department.name === selectedDepartment && firstDepartmentLoaded ? {color: "black"} : {}}>{department.name}</Typography>
                             </Link>
                             </Box>
                         </div>
@@ -82,12 +88,16 @@ interface DepartmentContentProps {
 }
 
 const DepartmentContent: React.FC<DepartmentContentProps> = ({ name }) => {
+
     const departmentContent = `This is the content of department with name ${name}`;
     console.log("DepartmentContent", name)
+
     return (
         <div>
-            <Typography variant="h3">Department Content</Typography>
-            <Typography>{departmentContent}</Typography>
+            <Typography variant="h1" style={{ textAlign: "center" }}>Department of {name}</Typography>
+            <Box p="2rem 5rem">
+            <Typography fontSize="20px" sx={{color:'black'}}>{departmentContent}</Typography>
+            </Box>
         </div>
     );
 };

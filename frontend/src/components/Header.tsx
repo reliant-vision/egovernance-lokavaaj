@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import {Box, Typography, useTheme} from "@mui/material"
 import FlexBetween from './FlexBetween';
 
-const logo = require('../assets/goalogowhite.png')
+const logo = require('../assets/Telangana-LOGO.png')
 
 const Header: React.FC = () => {
   const isLoggedIn = !!localStorage.getItem('token'); // Check if user is logged in
@@ -44,11 +44,11 @@ const Header: React.FC = () => {
       {/* Left Side */}
         <FlexBetween gap="0.75rem">
         <Box display="flex" alignItems="center">
-          <img src={logo} alt="Logo" style={{ marginRight: '0.5rem', height: '125px', width: 'auto' }} />
+          <img src={logo} alt="Logo" style={{ marginRight: '0.5rem', height: '130px', width: 'auto', marginBottom:'1rem' }} />
           </Box>
           <Typography variant='h4' fontSize="28px">
-            <p>Lok Avaaj</p>
-            <p>Government of GOA</p>
+            <p>PRAJA PAALANA</p>
+            <p>GOVT. OF TELANGANA</p>
           </Typography>
         </FlexBetween>
       {/* Right Side */}
