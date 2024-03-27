@@ -14,9 +14,15 @@ interface TalukaWiseCount {
     count: number;
   }
 
+  interface ConstituencyWiseCount{
+    assembly_constituency: string;
+    count: number;
+  }
+
 const DashboardRow1: React.FC = () => {
     const [talukawiseCounts, setTalukaWiseCounts] = useState<TalukaWiseCount[]>([]);
     const [districtwiseCounts, setDistrictWiseCounts] = useState<DistrictWiseCount[]>([]);
+    const [constituencywiseCounts, setConstituencyWiseCounts] = useState<ConstituencyWiseCount[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const {palette} = useTheme();
@@ -26,13 +32,14 @@ const DashboardRow1: React.FC = () => {
 
     
         try {
-        const response = await fetch('/applications/countbydistrictandtaluka');
+        const response = await fetch('/applications/countbydistrictandtalukaandconstituency');
         if (!response.ok) {
             throw new Error('Failed to fetch data');
         }
         const data = await response.json();
         setDistrictWiseCounts(data[0]);
         setTalukaWiseCounts(data[1]);
+        setConstituencyWiseCounts(data[2]);
         setLoading(false);
         } catch (error) {
         console.error('Error:', error);
@@ -57,15 +64,15 @@ const DashboardRow1: React.FC = () => {
     return (
         <>
         <DashboardBox  gridArea="a" >
-        <BoxHeader title={"Number of Applications Taluka/Mandal Wise"} sidetext={``} />
+        <BoxHeader title={"Number of Applications District Wise"} sidetext={``} />
         <ResponsiveContainer width="100%" height={300}>
           <AreaChart
-            data={talukawiseCounts}
+            data={districtwiseCounts}
             margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
           >
             <CartesianGrid stroke="#ccc" strokeWidth={0.1} />
-            <XAxis dataKey="taluka"  angle={0} interval={0} color={palette.grey[400]}>
-                <Label value="Name of Taluka" offset={0} position="insideBottom" />
+            <XAxis dataKey="district"  angle={-45} interval={0} color={palette.grey[400]}>
+                <Label value="Name of District" offset={0} position="insideBottom" />
             </XAxis>
             <YAxis>
                 <Label value="Grievances Count" offset={90} position="insideBottom" angle={-90} />
@@ -89,14 +96,14 @@ const DashboardRow1: React.FC = () => {
 
 
         <DashboardBox  gridArea="b" >
-        <BoxHeader title={"Number of Applications Taluka/Mandal Wise & District Wise"} sidetext={``} />
+        <BoxHeader title={"Number of Applications District Wise"} sidetext={``} />
         <ResponsiveContainer width="100%" height={300}>
         <PieChart width={300} height={250}>
-            <Pie data={districtwiseCounts} dataKey="count" nameKey="district" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" />
-            <Pie data={talukawiseCounts} dataKey="count" nameKey="taluka" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#82ca9d" label />
-            {colors.map((color, district) => (
+            {/* <Pie data={districtwiseCounts} dataKey="count" nameKey="district" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" /> */}
+            <Pie data={districtwiseCounts} dataKey="count" nameKey="district" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#82ca9d" label />
+            {/* {colors.map((color, district) => (
             <Pie key={district} data={districtwiseCounts} dataKey="count" nameKey="district" cx="50%" cy="50%" outerRadius={50} fill={color} />
-            ))}
+            ))} */}
             <Tooltip />
         </PieChart>
         </ResponsiveContainer>

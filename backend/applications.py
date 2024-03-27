@@ -219,7 +219,7 @@ class ApplicationsByTalukaResource(Resource):
         return jsonify(applications_taluka_wise_list)
 
 
-@app_ns.route('/countbydistrictandtaluka')
+@app_ns.route('/countbydistrictandtalukaandconstituency')
 class ApplicationsDistrictWiseCountResource(Resource):
     def get(self):
         """Fetch applications taluka wise count"""
@@ -234,7 +234,12 @@ class ApplicationsDistrictWiseCountResource(Resource):
                 .group_by(Applications.taluka)
                 .all()
             )
-            if not district_counts and not taluka_counts:
+            constituency_counts = (
+                db.session.query(Applications.assembly_constituency, func.count(Applications.id))
+                .group_by(Applications.assembly_constituency)
+                .all()
+            )
+            if not district_counts and not taluka_counts and not constituency_counts:
                 return {
                     "status_code": 404,
                     "error_message": "No applications found."
@@ -242,7 +247,8 @@ class ApplicationsDistrictWiseCountResource(Resource):
             
             district_counts_dict = [{"district": district, "count": count} for district, count in district_counts]
             taluka_counts_dict =  [{"taluka": taluka, "count": count} for taluka, count in taluka_counts]
-            return jsonify([district_counts_dict, taluka_counts_dict])
+            constituency_counts_dict =  [{"assembly_constituency": constituency, "count": count} for constituency, count in constituency_counts]
+            return jsonify([district_counts_dict, taluka_counts_dict, constituency_counts_dict])
         except Exception as e:
             return {
                 "status_code": 500,
@@ -257,69 +263,105 @@ class ApplicationsDistrictWiseCountResource(Resource):
     # @jwt_required()
     def get(self):
         """Fetch applications taluka wise count"""
-        try:
-            taluka_total_counts = (
-                db.session.query(Applications.taluka, func.count(Applications.id))
-                .group_by(Applications.taluka)
-                .all()
-            )
-            taluka_individual_counts = (
-                db.session.query(Applications.taluka, Applications.application_status, func.count(Applications.id))
-                .group_by(Applications.taluka, Applications.application_status)
-                .all()
-            )
+        # try:
+        taluka_total_counts = (
+            db.session.query(Applications.taluka, func.count(Applications.id))
+            .group_by(Applications.taluka)
+            .all()
+        )
 
-            statsbytype = (
-                db.session.query(Applications.grievance_type, Applications.application_status, func.count(Applications.id))
-                .group_by(Applications.grievance_type, Applications.application_status)
-                .all()
-            )
+        district_total_counts = (
+            db.session.query(Applications.district, func.count(Applications.id))
+            .group_by(Applications.district)
+            .all()
+        )
 
-            if not taluka_total_counts and not taluka_individual_counts and not statsbytype:
-                return {
-                    "status_code": 404,
-                    "error_message": "No applications found."
-                }
-            
-            #query1
-            taluka_total_counts_dict = [{"taluka": taluka, "count": count} for taluka, count in taluka_total_counts]
-            total_count_df = pd.DataFrame(taluka_total_counts_dict)
+        taluka_individual_counts = (
+            db.session.query(Applications.taluka, Applications.application_status, func.count(Applications.id))
+            .group_by(Applications.taluka, Applications.application_status)
+            .all()
+        )
 
-            #query2
-            taluka_individual_counts_dict =  [{"taluka": taluka, "application_status": application_status, "count": count} for taluka, application_status, count in taluka_individual_counts]
-            data_df = pd.DataFrame(taluka_individual_counts_dict)
-            data_df = data_df.pivot(index='taluka', columns='application_status', values='count')
-            data_df = data_df.reset_index()
-            data_df = data_df[['taluka', 'open', 'pending review', 'resolved']]
-            data_df = data_df.dropna(how='all')
-            data_df[['open', 'pending review', 'resolved']] = data_df[['open', 'pending review', 'resolved']].astype(int)
-            data_df = data_df.merge(total_count_df, on='taluka')
-            data_df = data_df.rename(columns={'count': 'total_count'})
-            response = data_df.to_dict(orient='records')
+        district_individual_counts = (
+            db.session.query(Applications.district, Applications.application_status, func.count(Applications.id))
+            .group_by(Applications.district, Applications.application_status)
+            .all()
+        )
 
-            #query3
-            statsbytype_dict = [{"grievance_type": grievance_type, "application_status": application_status, "count": count} for grievance_type, application_status, count in statsbytype]
-            statsbytype_df = pd.DataFrame(statsbytype_dict)
-            statsbytype_df = statsbytype_df.pivot(index='grievance_type', columns='application_status', values='count')
-            statsbytype_df = statsbytype_df.reset_index()
-            statsbytype_df['total_count'] = statsbytype_df['open'] + statsbytype_df['pending review'] + statsbytype_df['resolved']
-            statsbytype_df = statsbytype_df.rename(columns={'pending review': 'pending_review'})
-            statsbytype = statsbytype_df.to_dict(orient='records')
+        statsbytype = (
+            db.session.query(Applications.grievance_type, Applications.application_status, func.count(Applications.id))
+            .group_by(Applications.grievance_type, Applications.application_status)
+            .all()
+        )
 
-            
-
-
-            return [response, [{
-                "total_count": int(data_df['total_count'].sum()),
-                "open": int(data_df['open'].sum()),
-                "pending_review": int(data_df['pending review'].sum()),
-                "resolved": int(data_df['resolved'].sum())
-            }], statsbytype]
-        except Exception as e:
+        if not taluka_total_counts and not taluka_individual_counts and not statsbytype and not district_individual_counts:
             return {
-                "status_code": 400,
-                "error_message": str(e)
+                "status_code": 404,
+                "error_message": "No applications found."
             }
+        
+        #query1
+        taluka_total_counts_dict = [{"taluka": taluka, "count": count} for taluka, count in taluka_total_counts]
+        total_taluka_count_df = pd.DataFrame(taluka_total_counts_dict)
+
+        #query2
+        district_total_counts_dict = [{"district": district, "count": count} for district, count in district_total_counts]
+        total_district_count_df = pd.DataFrame(district_total_counts_dict)
+
+        #query3
+        taluka_individual_counts_dict =  [{"taluka": taluka, "application_status": application_status, "count": count} for taluka, application_status, count in taluka_individual_counts]
+        data_df = pd.DataFrame(taluka_individual_counts_dict)
+        data_df = data_df.pivot(index='taluka', columns='application_status', values='count')
+        data_df = data_df.reset_index()
+        data_df = data_df[['taluka', 'open', 'pending review', 'resolved']]
+        data_df = data_df.dropna(how='all')
+        data_df[['open', 'pending review', 'resolved']] = data_df[['open', 'pending review', 'resolved']].astype(int)
+        data_df = data_df.merge(total_taluka_count_df, on='taluka')
+        data_df = data_df.rename(columns={'count': 'total_count'})
+        response = data_df.to_dict(orient='records')
+
+        #query4
+
+        district_individual_counts_dict = [{"district": district, "application_status": application_status, "count": count} for district, application_status, count in district_individual_counts]
+        data_df = pd.DataFrame(district_individual_counts_dict)
+        print("Line 316",data_df)
+        data_df = data_df.pivot(index='district', columns='application_status', values='count')
+        print("Line 318",data_df)
+        data_df = data_df.reset_index()
+        print("Line 320",data_df)
+        data_df = data_df[['district', 'open', 'pending review', 'resolved']]
+        print("Line 322",data_df)
+        data_df = data_df.dropna(how='all')
+        print("Line 324",data_df)
+        data_df[['open', 'pending review', 'resolved']] = data_df[['open', 'pending review', 'resolved']].astype(int)
+        print("Line 326",data_df)
+        data_df = data_df.merge(total_district_count_df, on='district')
+        data_df = data_df.rename(columns={'count': 'total_count'})
+        response_district = data_df.to_dict(orient='records')
+
+        #query5
+        statsbytype_dict = [{"grievance_type": grievance_type, "application_status": application_status, "count": count} for grievance_type, application_status, count in statsbytype]
+        statsbytype_df = pd.DataFrame(statsbytype_dict)
+        statsbytype_df = statsbytype_df.pivot(index='grievance_type', columns='application_status', values='count')
+        statsbytype_df = statsbytype_df.reset_index()
+        statsbytype_df['total_count'] = statsbytype_df['open'] + statsbytype_df['pending review'] + statsbytype_df['resolved']
+        statsbytype_df = statsbytype_df.rename(columns={'pending review': 'pending_review'})
+        statsbytype = statsbytype_df.to_dict(orient='records')
+
+        
+
+
+        return [response, [{
+            "total_count": int(data_df['total_count'].sum()),
+            "open": int(data_df['open'].sum()),
+            "pending_review": int(data_df['pending review'].sum()),
+            "resolved": int(data_df['resolved'].sum())
+        }], statsbytype, response_district]
+        # except Exception as e:
+        #     return {
+        #         "status_code": 400,
+        #         "error_message": str(e)
+        #     }
 
 
 

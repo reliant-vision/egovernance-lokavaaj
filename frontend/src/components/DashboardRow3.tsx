@@ -15,6 +15,15 @@ interface ApplicationsDataStats {
     resolved: number;
 }
 
+interface ApplicationsDataDistrictStats {
+    id: number;
+    district: string;
+    total_count: number;
+    open: number;
+    pending_review: number;
+    resolved: number;
+}
+
 interface ApplicationsDataOverallStats{
     id: number;
     total_count: number;
@@ -24,7 +33,8 @@ interface ApplicationsDataOverallStats{
 }
 
 const DashboardRow3: React.FC = () => {
-    const [applicationsStats, setApplicationsStats] = useState<ApplicationsDataStats[]>([]);
+    const [applicationsTalukaStats, setApplicationsTalukaStats] = useState<ApplicationsDataStats[]>([]);
+    const [applicationsDistrictStats, setApplicationsDistrictStats] = useState<ApplicationsDataDistrictStats[]>([]);
     const [applicationsOverallStats, setApplicationsOverallStats] = useState<ApplicationsDataOverallStats[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -43,7 +53,8 @@ const DashboardRow3: React.FC = () => {
             throw new Error('Failed to fetch data');
         }
         const data = await response.json();
-        setApplicationsStats(data[0]);
+        setApplicationsTalukaStats(data[0]);
+        setApplicationsDistrictStats(data[3]);
         setApplicationsOverallStats(data[1]);
         setLoading(false);
         } catch (error) {
@@ -69,11 +80,11 @@ const DashboardRow3: React.FC = () => {
     return (
         <>
         <DashboardBox  gridArea="e" >
-        <BoxHeader title="Taluka/Mandal Wise Applications Report" subtitle="" sidetext="" />
+        <BoxHeader title="District Wise Applications Report" subtitle="" sidetext="" />
             <ResponsiveContainer width="100%" height={300}>
                     <Box>
-                        <ComposedChart width={900} height={280} data={applicationsStats}>
-                            <XAxis dataKey="taluka" />
+                        <ComposedChart width={900} height={280} data={applicationsDistrictStats}>
+                            <XAxis dataKey="district" />
                             <YAxis />
                             <Tooltip />
                             <Legend />
